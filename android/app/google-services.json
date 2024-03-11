@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "839957518751",
+    "project_id": "todotest-9bc35",
+    "storage_bucket": "todotest-9bc35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839957518751:android:70ab0f13764e6630f845aa",
+        "android_client_info": {
+          "package_name": "com.example.text_editor_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvGC4sDdXyyb-rvtRo3vPF6yRm8SAoPbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
