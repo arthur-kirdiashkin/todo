@@ -42,7 +42,7 @@ class _SignUpState extends State<SignUp> {
             );
           }
           if (state is AuthErrorState) {
-            ScaffoldMessenger.of(context)
+             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(state.error)));
           }
         },

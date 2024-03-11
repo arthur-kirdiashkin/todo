@@ -143,6 +143,10 @@ class _SignInState extends State<SignIn> {
                 ),
               );
             }
+            if (state is AuthErrorState) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
+            }
             return Container();
           },
         ),

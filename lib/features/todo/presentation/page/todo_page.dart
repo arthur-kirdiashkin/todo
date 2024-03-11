@@ -1,4 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_bloc.dart';
+import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_event.dart';
+import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_state.dart';
+import 'package:text_editor_test/features/auth/presentation/page/sign_in.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -10,13 +16,49 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     final wordsController = TextEditingController();
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 156, 189),
       appBar: AppBar(
         title: Center(child: Text('TO DO App')),
       ),
-      body: Center(child: Container(child: Text('Типо страница с ТОДО'),)),
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is UnAuthenticatedState) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => SignIn()),
+              (route) => false,
+            );
+          }
+          if(state is AuthErrorState) {
+            ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
+        child: Column(
+          children: [
+            Center(
+                child: Container(
+              child: Text(' ТОДО Лист'),
+            )),
+            SizedBox(
+              height: 16,
+            ),
+            Text('Email: ${user.email}'),
+            SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              child: const Text('Sign Out'),
+              onPressed: () {
+                // Signing out the user
+                context.read<AuthBloc>().add(SignOutRequested());
+              },
+            ),
+          ],
+        ),
+      ),
       // body: Column(
       //   children: [
       //     Padding(
@@ -59,7 +101,7 @@ class _TodoPageState extends State<TodoPage> {
       //                     borderRadius: BorderRadius.circular(15))),
       //               ),
       //               onPressed: (){
-                      
+
       //               },
       //               child: Text(
       //                 '+',

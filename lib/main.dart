@@ -6,10 +6,11 @@ import 'package:text_editor_test/features/auth/data/repository/authentication_re
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_bloc.dart';
 import 'package:text_editor_test/features/auth/presentation/page/sign_in.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_page.dart';
+import 'package:text_editor_test/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
