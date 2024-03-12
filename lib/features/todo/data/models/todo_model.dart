@@ -1,36 +1,54 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class TodoModel extends Equatable{
+class TodoModel extends Equatable {
   final bool? isDone;
-  final String? text;
+  final String? textTitle;
   final String? id;
 
   TodoModel({
-    required this.isDone,
-    required this.text,
-    required this.id,
+    this.isDone,
+    this.textTitle,
+    this.id,
   });
-  
- Map<String, dynamic> toJson() {
+
+  Map<String, dynamic> toMap() {
     return {
-      "id": id,
-      "text": text,
-      "isDone": isDone
+      'isDone': isDone,
+      'textTitle': textTitle,
+      'id': id,
     };
   }
 
-  factory TodoModel.fromJson(Map<String, dynamic> json) {
-    return TodoModel(
-        id: json['id'],
-        text: json['text'],
-        isDone: json['isDone']);
-  }
-  
+  TodoModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
+      : id = doc.id,
+        textTitle = doc.data()!['textTitle'],
+        isDone = doc.data()!["isDone"];
+
   @override
   // TODO: implement props
-  List<Object?> get props => [isDone, text, id];
+  List<Object?> get props => [
+        textTitle,
+        id,
+        isDone,
+      ];
 
-  
+//  Map<String, dynamic> toJson() {
+//     return {
+//       "id": id,
+//       "textTitle": textTitle,
+//       "isDone": isDone
+//     };
+//   }
 
+//   factory TodoModel.fromJson(Map<String, dynamic> json) {
+//     return TodoModel(
+//         id: json['id'],
+//         textTitle: json['textTitle'],
+//         isDone: json['isDone']);
+//   }
 
+//   @override
+//   // TODO: implement props
+//   List<Object?> get props => [isDone, textTitle, id];
 }

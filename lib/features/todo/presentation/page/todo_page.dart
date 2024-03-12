@@ -11,8 +11,11 @@ import 'package:text_editor_test/features/auth/presentation/authBloc/authenticat
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_state.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/presentation/page/item_page.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_bloc/todo_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_bloc/todo_state.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_event.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_state.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_state.dart';
 import 'package:text_editor_test/utils/constants.dart';
 
 class TodoPage extends StatelessWidget {
@@ -20,6 +23,7 @@ class TodoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationFailure) {
@@ -74,26 +78,59 @@ class TodoPage extends StatelessWidget {
           //     );
           //   },
           // ),
-          body: BlocBuilder<TodoBloc, TodoState>(
-            builder: (context, state) {
-               List<Todo> todo = [];
-              if (state is TodoLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (state is TodoLoaded) {
-                todo.add(state.todo);
-                return ListView.builder(
-                  itemCount: todo.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: ListTile(title: Text(state.todo.title)),
+          body: MultiBlocListener(
+            listeners: [
+              // BlocListener<TodoBloc, TodoState>(
+              //   listener: (context, state) {
+              //     if (state is TodoLoaded) {
+              //       todo.addAll(state.todo);
+              //     }
+              //   },
+              // ),
+              BlocListener<TodoBloc, TodoState>(
+                listener: (context, state) {
+                  if (state is TodoLoaded) {
+                    // todo.addAll(state.todo);
+                  }
+                },
+              ),
+            ],
+            child: BlocBuilder<TodoBloc, TodoState>(
+              builder: (context, state) {
+                if (state is TodoLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is TodoLoaded) {
+                  if (state.todo.isEmpty) {
+                    return Center(
+                      child: Text('Press "+" to add item'),
                     );
-                  },
-                );
-              }
-              return SizedBox.shrink();
-            },
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.todo.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        color: Color.fromARGB(255, 255, 225, 222),
+                        child: ListTile(
+                          trailing: InkWell(
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                              onTap: () {
+                                context.read<TodoBloc>().add(DeleteTodoEvent(id: state.todo[index].id, todoTitle: state.todo[index].title));
+                              }),
+                          title: Text(state.todo[index].title),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return SizedBox.shrink();
+              },
+            ),
           ),
           // body: BlocBuilder<DatabaseBloc, DatabaseState>(
           //   builder: (context, state) {
@@ -140,5 +177,3 @@ class TodoPage extends StatelessWidget {
     );
   }
 }
-
-

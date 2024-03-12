@@ -18,10 +18,15 @@ class Todo extends HiveObject {
   @HiveField(1)
   TodoStatus? status;
 
+  @HiveField(2)
+  final int id;
+
   Todo({
+    required this.id,
     required this.title,
     this.status,
   });
+  
 
   void setStatus(TodoStatus status) {
     this.status = status;

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_bloc/todo_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_bloc/todo_event.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_event.dart';
 
 class ItemPage extends StatefulWidget {
   const ItemPage({super.key});
@@ -62,6 +62,7 @@ class _ItemPageState extends State<ItemPage> {
                   context
                       .read<TodoBloc>()
                       .add(AddTodoEvent(todoTitle: wordController.text));
+                      wordController.clear();
                 },
                 child: Text(
                   'Save',

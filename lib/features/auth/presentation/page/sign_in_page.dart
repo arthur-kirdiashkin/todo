@@ -1,4 +1,3 @@
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,8 +31,8 @@ class SignInPage extends StatelessWidget {
             } else if (state.isFormValid && !state.isLoading) {
               context.read<AuthenticationBloc>().add(AuthenticationStarted());
             } else if (state.isFormValidateFailed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text(Constants.textFixIssues)));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Please fill the data correctly!")));
             }
           },
         ),
@@ -55,17 +54,16 @@ class SignInPage extends StatelessWidget {
             systemOverlayStyle:
                 const SystemUiOverlayStyle(statusBarColor: Colors.white),
           ),
-          backgroundColor: Constants.kPrimaryColor,
+          backgroundColor: Colors.white,
           body: Center(
               child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // Image.asset("assets/images/sign-in.png"),
               RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(children: <TextSpan>[
                     TextSpan(
-                        text: Constants.textSignInTitle,
+                        text: "Welcome back!",
                         style: TextStyle(
                           color: Constants.kBlackColor,
                           fontWeight: FontWeight.bold,
@@ -175,12 +173,12 @@ class _SubmitButton extends StatelessWidget {
                           .read<FormBloc>()
                           .add(const FormSubmitted(value: Status.signIn))
                       : null,
-                  child: const Text(Constants.textSignIn),
+                  child: const Text("Sign In"),
                   style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Constants.kPrimaryColor),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Constants.kBlackColor),
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
                       side: MaterialStateProperty.all<BorderSide>(
                           BorderSide.none)),
                 ),
@@ -201,7 +199,7 @@ class _SignInNavigate extends StatelessWidget {
           const TextSpan(
               text: Constants.textAcc,
               style: TextStyle(
-                color: Constants.kDarkGreyColor,
+                color: Color(0xFF9E9E9E),
               )),
           TextSpan(
               recognizer: TapGestureRecognizer()
@@ -216,7 +214,7 @@ class _SignInNavigate extends StatelessWidget {
               text: Constants.textSignUp,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Constants.kDarkBlueColor,
+                color: Color(0xFF6057FF),
               )),
         ]));
   }

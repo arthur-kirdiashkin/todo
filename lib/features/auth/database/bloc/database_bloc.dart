@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:text_editor_test/features/auth/data/user.dart';
 
 
-import '../database_repository_impl.dart';
+import '../database_repository.dart';
 
 
 part 'database_event.dart';

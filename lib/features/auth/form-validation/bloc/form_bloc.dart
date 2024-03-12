@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:text_editor_test/features/auth/data/repository/authentication_repository.dart';
 import 'package:text_editor_test/features/auth/data/user.dart';
-import 'package:text_editor_test/features/auth/database/database_repository_impl.dart';
+import 'package:text_editor_test/features/auth/database/database_repository.dart';
 part 'form_event.dart';
 part 'form_state.dart';
 

@@ -12,12 +12,12 @@ Future<void> initDependency() async {
   Hive.registerAdapter(TodoStatusAdapter());
   Hive.registerAdapter(LocalListAdapter());
   Hive.registerAdapter(ListStatusAdapter());
-  await Hive.openBox<Todo>('HiveTodos');
+  // await Hive.openBox<Todo>('HiveTodos');
 
 
-  locator.registerSingleton<Box<Todo>>(
-    Hive.box('HiveTodos')
-  );
+  // locator.registerSingleton<Box<Todo>>(
+  //   Hive.box('HiveTodos')
+  // );
 
   
  

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:text_editor_test/features/auth/data/repository/authentication_repository.dart';
 import 'package:text_editor_test/features/auth/database/bloc/database_bloc.dart';
-import 'package:text_editor_test/features/auth/database/database_repository_impl.dart';
+import 'package:text_editor_test/features/auth/database/database_repository.dart';
 import 'package:text_editor_test/features/auth/form-validation/bloc/form_bloc.dart';
 import 'package:text_editor_test/features/auth/form-validation/welcome_page.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_bloc.dart';
@@ -14,7 +14,10 @@ import 'package:text_editor_test/features/auth/presentation/authBloc/authenticat
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_page.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_bloc/todo_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_event.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_event.dart';
 import 'package:text_editor_test/firebase_options.dart';
 import 'package:text_editor_test/locator.dart';
 import 'package:text_editor_test/utils/constants.dart';
@@ -44,17 +47,17 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => DatabaseRepositoryImpl(),
         ),
-        RepositoryProvider(
-            create: (context) => TodoRepositoryImpl(locator.get<Box<Todo>>()))
+        RepositoryProvider(create: (context) => TodoRepositoryImpl())
       ],
       child: MultiBlocProvider(
-        // create: (context) => AuthBloc(
-        //     authenticationRepository:
-        //         RepositoryProvider.of<AuthenticationRepositoryImpl>(context)),
         providers: [
           BlocProvider(
               create: (context) =>
-                  TodoBloc(todoRepository: TodoRepositoryImpl(locator.get<Box<Todo>>()))),
+                  TodoBloc(todoRepository: TodoRepositoryImpl())..add(GetTodoEvent())
+                    ),
+          // BlocProvider(
+          //     create: (context) =>
+          //         TodoAddBloc(todoRepository: TodoRepositoryImpl())),
           BlocProvider(
             create: (context) =>
                 AuthenticationBloc(AuthenticationRepositoryImpl())

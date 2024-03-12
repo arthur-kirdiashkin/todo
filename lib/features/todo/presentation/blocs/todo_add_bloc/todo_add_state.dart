@@ -25,26 +25,26 @@ class TodoLoading extends TodoState {
   List<Object?> get props => [];
 }
 
-class TodosLoaded extends TodoState {
-  final List<Todo> todos;
-  const TodosLoaded(this.todos);
-  @override
-  List<Object?> get props => [todos];
-}
+// class TodosLoaded extends TodoAddState {
+//   final List<Todo> todos;
+//   const TodosLoaded(this.todos);
+//   @override
+//   List<Object?> get props => [todos];
+// }
 
 class TodoLoaded extends TodoState {
-  final Todo todo;
+  final List<Todo> todo;
   const TodoLoaded(this.todo);
   @override
   List<Object?> get props => [todo];
 }
 
-class TodoUpdated extends TodoState {
-  const TodoUpdated();
+// class TodoUpdated extends TodoAddState {
+//   const TodoUpdated();
 
-  @override
-  List<Object?> get props => [];
-}
+//   @override
+//   List<Object?> get props => [];
+// }
 
 class TodoError extends TodoState {
   final String message;
