@@ -1,57 +1,66 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:text_editor_test/features/auth/data/repository/authentication_service.dart';
 import 'package:text_editor_test/features/auth/data/user.dart';
+import 'package:text_editor_test/features/auth/database/database_service.dart';
+
 
 abstract class AuthenticationRepository {
-  Future<void> signIn({required String email, required String password});
 
-  Future<void> logOut();
+  Stream<MyUser> getCurrentUser();
 
-  Future<void> signUp({required String email, required String password});
+  // Future<void> signIn({required String email, required String password});
+
+  // Future<void> logOut();
+
+  // Future<void> signUp({required String email, required String password});
+  Future<UserCredential?> signUp(MyUser user);
+
+  Future<UserCredential?> signIn(MyUser user);
+
+  Future<void> signOut();
+
+  Future<String?> retrieveUserName(MyUser user);
 }
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
-  final _firebaseAuth = FirebaseAuth.instance;
+  // final _firebaseAuth = FirebaseAuth.instance;
+  AuthenticationService service = AuthenticationService();
+  DatabaseService dbService = DatabaseService();
+  
+  @override
+  Stream<MyUser> getCurrentUser() {
+    return service.retrieveCurrentUser();
+  }
 
   @override
-  Future<void> logOut() async{
+  Future<UserCredential?> signUp(MyUser user) {
     try {
-      await _firebaseAuth.signOut();
-    } catch (e) {
-      throw Exception(e);
+      return service.signUp(user);
+    } on FirebaseAuthException catch (e) {
+      throw FirebaseAuthException(code: e.code, message: e.message);
     }
   }
 
   @override
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserCredential?> signIn(MyUser user) {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      return service.signIn(user);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw Exception('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        throw Exception('Wrong password provided for that user.');
-      }
+      throw FirebaseAuthException(code: e.code, message: e.message);
     }
   }
 
   @override
-  Future<void> signUp({required String email, required String password}) async {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw Exception('The account already exists for that email.');
-      }
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+  Future<void> signOut() {
+    return service.signOut();
+  }
+
+  @override
+  Future<String?> retrieveUserName(MyUser user) {
+    return dbService.retrieveUserName(user);
   }
 }
+
+  
+

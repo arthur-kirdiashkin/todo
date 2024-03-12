@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class ToDo extends Equatable{
+class TodoModel extends Equatable{
   final bool? isDone;
   final String? text;
   final String? id;
 
-  ToDo({
+  TodoModel({
     required this.isDone,
     required this.text,
     required this.id,
@@ -19,8 +19,8 @@ class ToDo extends Equatable{
     };
   }
 
-  factory ToDo.fromJson(Map<String, dynamic> json) {
-    return ToDo(
+  factory TodoModel.fromJson(Map<String, dynamic> json) {
+    return TodoModel(
         id: json['id'],
         text: json['text'],
         isDone: json['isDone']);
