@@ -6,10 +6,6 @@ abstract class TodoRepository {
 
   Future<bool> deleteTodo(int id);
 
-  Future<void> addTodoList(String title);
-
-  Future<void> deleteTodoList();
-
   Future<List<Todo>?> getTodo();
 
   Future<Todo>? updateTodoTitle(Todo todo, String titile);
@@ -35,18 +31,6 @@ class TodoRepositoryImpl implements TodoRepository {
     final todoBox = await openBox();
     todoBox.delete(id);
     return true;
-  }
-
-  @override
-  Future<void> addTodoList(String title) {
-    // TODO: implement addTodoList
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteTodoList() {
-    // TODO: implement deleteTodoList
-    throw UnimplementedError();
   }
 
   @override
@@ -89,12 +73,4 @@ class TodoRepositoryImpl implements TodoRepository {
 
     return todo;
   }
-
-  // @override
-  // Future<void> addTodoList(String title) {
-  //  final todoToEdit = _todoBox.values.firstWhere((todo) => todo.title == title);
-  //   List<LocalList> lists = todoToEdit.lists;
-  //   lists.add(list);
-  //   todoToEdit.save();
-  // }
 }
