@@ -24,6 +24,7 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_state.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_title_page.dart';
 import 'package:text_editor_test/utils/constants.dart';
+import 'dart:io' show Platform;
 
 class TodoPage extends StatelessWidget {
   const TodoPage({Key? key}) : super(key: key);
@@ -47,16 +48,9 @@ class TodoPage extends StatelessWidget {
               },
               child: Text('Load from Firebase')),
           appBar: AppBar(
+            backgroundColor: Colors.blue,
             actions: <Widget>[
-              IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ItemPage()));
-                  }),
+              addButton(context)!,
               IconButton(
                   icon: const Icon(
                     Icons.logout,
@@ -70,37 +64,10 @@ class TodoPage extends StatelessWidget {
             ],
             title: Text((state as AuthenticationSuccess).displayName!),
           ),
-          // body: ValueListenableBuilder(
-          //   valueListenable: Hive.box<Todo>('HiveTodos').listenable(),
-          //   builder: (BuildContext context, Box<Todo> box, _) {
-          //     if (box.values.isEmpty)
-          //       return Center(
-          //         child: Text("No contacts"),
-          //       );
-          //     return ListView.builder(
-          //       itemCount: box.values.length,
-          //       itemBuilder: (BuildContext context, int index) {
-          //         Todo currentTodo = box.get(index)!;
-          //         return Card(
-          //           child: ListTile(title: Text('${currentTodo.title}')),
-          //         );
-          //       },
-          //     );
-          //   },
-          // ),
           body: MultiBlocListener(
             listeners: [
-              // BlocListener<TodoBloc, TodoState>(
-              //   listener: (context, state) {
-              //     if (state is TodoLoaded) {
-              //       todo.addAll(state.todo);
-              //     }
-              //   },
-              // ),
               BlocListener<TodoBloc, TodoState>(
-                listener: (context, state) {
-                  // todo.addAll(state.todo);
-                },
+                listener: (context, state) {},
               ),
               BlocListener<TodoTitleBloc, TodoTitleState>(
                 listener: (BuildContext context, TodoTitleState state) {
@@ -128,11 +95,9 @@ class TodoPage extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
-                          context.read<TodoTitleBloc>().add(AddOneTodoEvent(todo: state.todo[index]));
-                          // Navigator.of(context).push(MaterialPageRoute(
-                          //     builder: (context) => TodoTitlePage(
-                          //           // updatedTodo: state.todo[index],
-                          //         )));
+                          context
+                              .read<TodoTitleBloc>()
+                              .add(AddOneTodoEvent(todo: state.todo[index]));
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -141,20 +106,17 @@ class TodoPage extends StatelessWidget {
                         child: Card(
                           color: Color.fromARGB(255, 255, 225, 222),
                           child: ListTile(
-                            trailing: InkWell(
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                onTap: () {
-                                  // context.read<TodoBloc>().add(
-                                  //     DeleteTodoFirebaseEvent(
-                                  //         id: state.todo[index].id,
-                                  //         todoTitle: state.todo[index].title!));
-                                  context.read<TodoBloc>().add(DeleteTodoEvent(
-                                      id: state.todo[index].id,
-                                      todoTitle: state.todo[index].title!));
-                                }),
+                            trailing: deleteIcon(context, state.todo, index),
+                            // trailing: InkWell(
+                            //     child: Icon(
+                            //       Icons.delete,
+                            //       color: Colors.red,
+                            //     ),
+                            //     onTap: () {
+                            //       context.read<TodoBloc>().add(DeleteTodoEvent(
+                            //           id: state.todo[index].id,
+                            //           todoTitle: state.todo[index].title!));
+                            //     }),
                             title: Text(state.todo[index].title!),
                           ),
                         ),
@@ -165,47 +127,41 @@ class TodoPage extends StatelessWidget {
                 return SizedBox.shrink();
               },
             ),
-            // child: BlocBuilder<TodoDatabaseBloc, TodoDatabaseState>(
-            //   builder: (context, state) {
-            //     if (state is TodoDatabaseLoading) {
-            //       return const Center(child: CircularProgressIndicator());
-            //     } else if (state is TodoDatabaseSuccess) {
-            //       if (state.listOfTodo.isEmpty) {
-            //         return const Center(
-            //           child: Text(Constants.textNoData),
-            //         );
-            //       } else {
-            //         return ListView.builder(
-            //           shrinkWrap: true,
-            //           itemCount: state.listOfTodo.length,
-            //           itemBuilder: (BuildContext context, int index) {
-            //             return Card(
-            //               color: Color.fromARGB(255, 207, 203, 255),
-            //               child: ListTile(
-            //                 trailing: InkWell(
-            //                     child: Icon(
-            //                       Icons.delete,
-            //                       color: Colors.red,
-            //                     ),
-            //                     onTap: () {
-            //                       context.read<TodoDatabaseBloc>().add(
-            //                           DeleteTotoDataEvent(
-            //                               id: state.listOfTodo[index].id));
-            //                     }),
-            //                 title: Text(state.listOfTodo[index].textTitle!),
-            //               ),
-            //             );
-            //           },
-            //         );
-            //       }
-            //     } else {
-            //       return SizedBox.shrink();
-            //     }
-            //   },
-            // ),
           ),
         );
       },
     );
+  }
+
+  Widget? addButton(context) {
+    if (Platform.isAndroid) {
+      return SizedBox.shrink();
+    } else if (Platform.isWindows) {
+      return IconButton(
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => ItemPage()));
+          });
+    }
+  }
+
+  Widget? deleteIcon(BuildContext context,  todo, int index) {
+    if (Platform.isAndroid) {
+      return SizedBox.shrink();
+    } else if (Platform.isWindows) {
+      return InkWell(
+          child: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          onTap: () {
+            context.read<TodoBloc>().add(DeleteTodoEvent(
+                id: todo[index].id, todoTitle: todo[index].title!));
+          });
+    }
   }
 }

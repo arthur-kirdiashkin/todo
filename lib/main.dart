@@ -58,8 +58,9 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) =>
-                  TodoTitleBloc(todoRepository: TodoRepositoryImpl(), todoDatabaseRepository: TodoDatabaseRepositoryImpl())),
+              create: (context) => TodoTitleBloc(
+                  todoRepository: TodoRepositoryImpl(),
+                  todoDatabaseRepository: TodoDatabaseRepositoryImpl())),
           BlocProvider(
             create: (context) => TodoDatabaseBloc(TodoDatabaseRepositoryImpl()),
           ),
@@ -68,9 +69,6 @@ class MyApp extends StatelessWidget {
                   todoRepository: TodoRepositoryImpl(),
                   todoDatabaseRepository: TodoDatabaseRepositoryImpl())
                 ..add(GetTodoEvent())),
-          // BlocProvider(
-          //     create: (context) =>
-          //         TodoAddBloc(todoRepository: TodoRepositoryImpl())),
           BlocProvider(
             create: (context) =>
                 AuthenticationBloc(AuthenticationRepositoryImpl())
@@ -84,17 +82,6 @@ class MyApp extends StatelessWidget {
             create: (context) => DatabaseBloc(DatabaseRepositoryImpl()),
           )
         ],
-        // child: MaterialApp(
-        //   home: StreamBuilder<User?>(
-        //     stream: FirebaseAuth.instance.authStateChanges(),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.hasData) {
-        //         return TodoPage();
-        //       }
-        //       return SignIn();
-        //     },
-        //   ),
-        // ),
         child: MaterialApp(
             home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
