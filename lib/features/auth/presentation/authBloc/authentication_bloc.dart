@@ -6,22 +6,22 @@ import 'package:text_editor_test/features/auth/presentation/authBloc/authenticat
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository authenticationRepository;
 
-  AuthenticationBloc(this._authenticationRepository)
+  AuthenticationBloc({required this.authenticationRepository})
       : super(AuthenticationInitial()) {
     on<AuthenticationEvent>((event, emit) async {
       if (event is AuthenticationStarted) {
-        MyUser user = await _authenticationRepository.getCurrentUser().first;
+        MyUser user = await authenticationRepository.getCurrentUser().first;
         if (user.uid != "uid") {
-          String? displayName = await _authenticationRepository.retrieveUserName(user);
+          String? displayName = await authenticationRepository.retrieveUserName(user);
           emit(AuthenticationSuccess(displayName: displayName));
         } else {
           emit(AuthenticationFailure());
         }
       }
       else if(event is AuthenticationSignedOut){
-        await _authenticationRepository.signOut();
+        await authenticationRepository.signOut();
         emit(AuthenticationFailure());
       }
     });

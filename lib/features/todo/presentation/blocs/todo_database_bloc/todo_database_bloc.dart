@@ -9,7 +9,7 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_
 
 class TodoDatabaseBloc extends Bloc<TodoDatabaseEvent, TodoDatabaseState> {
   final TodoDatabaseRepository todoDatabaseRepository;
-  TodoDatabaseBloc(this.todoDatabaseRepository) : super(TodoDatabaseInitial()) {
+  TodoDatabaseBloc({required this.todoDatabaseRepository}) : super(TodoDatabaseInitial()) {
     on<AddTodoDatabaseeEvent>(_addTodoDatabaseEvent);
     on<LoadTodoDataEvent>(_loadTodoDataEvent);
     on<DeleteTotoDataEvent>(_deleteTotoDataEvent);

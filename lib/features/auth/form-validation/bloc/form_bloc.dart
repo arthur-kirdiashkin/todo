@@ -8,9 +8,11 @@ part 'form_event.dart';
 part 'form_state.dart';
 
 class FormBloc extends Bloc<FormEvent, FormsValidate> {
-  final AuthenticationRepository _authenticationRepository;
-  final DatabaseRepository _databaseRepository;
-  FormBloc(this._authenticationRepository, this._databaseRepository)
+  final AuthenticationRepository authenticationRepository;
+  final DatabaseRepository databaseRepository;
+  FormBloc(
+      {required this.authenticationRepository,
+      required this.databaseRepository})
       : super(const FormsValidate(
             email: "example@gmail.com",
             password: "",
@@ -95,7 +97,9 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
 
   _onFormSubmitted(FormSubmitted event, Emitter<FormsValidate> emit) async {
     MyUser user = MyUser(
-        email: state.email, password: state.password, displayName: state.displayName);
+        email: state.email,
+        password: state.password,
+        displayName: state.displayName);
 
     if (event.value == Status.signUp) {
       await _updateUIAndSignUp(event, emit, user);
@@ -115,10 +119,10 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
         isLoading: true));
     if (state.isFormValid) {
       try {
-        UserCredential? authUser = await _authenticationRepository.signUp(user);
+        UserCredential? authUser = await authenticationRepository.signUp(user);
         MyUser updatedUser = user.copyWith(
             uid: authUser!.user!.uid, isVerified: authUser.user!.emailVerified);
-        await _databaseRepository.saveUserData(updatedUser);
+        await databaseRepository.saveUserData(updatedUser);
         if (updatedUser.isVerified!) {
           emit(state.copyWith(isLoading: false, errorMessage: ""));
         } else {
@@ -147,7 +151,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
         isLoading: true));
     if (state.isFormValid) {
       try {
-        UserCredential? authUser = await _authenticationRepository.signIn(user);
+        UserCredential? authUser = await authenticationRepository.signIn(user);
         MyUser updatedUser =
             user.copyWith(isVerified: authUser!.user!.emailVerified);
         if (updatedUser.isVerified!) {
