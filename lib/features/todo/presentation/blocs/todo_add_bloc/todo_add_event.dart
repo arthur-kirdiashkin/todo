@@ -11,6 +11,22 @@ class AddTodoEvent extends TodoEvent {
   List<Object?> get props => [todoTitle];
 }
 
+class AddTodoDatabaseEvent extends TodoEvent {
+  final String todoTitle;
+
+  AddTodoDatabaseEvent({required this.todoTitle});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [todoTitle];
+}
+
+class GetTodoDatabaseEvent extends TodoEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class DeleteTodoEvent extends TodoEvent {
   final int id;
   final String todoTitle;
@@ -21,7 +37,21 @@ class DeleteTodoEvent extends TodoEvent {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, todoTitle];
+}
+
+class DeleteTodoFirebaseEvent extends TodoEvent {
+  final int id;
+  final String todoTitle;
+
+  DeleteTodoFirebaseEvent({
+    required this.id,
+    required this.todoTitle,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
 }
 
 class GetTodoEvent extends TodoEvent {

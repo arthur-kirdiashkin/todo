@@ -10,12 +10,19 @@ import 'package:text_editor_test/features/auth/presentation/authBloc/authenticat
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_event.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_state.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_state.dart';
 import 'package:text_editor_test/features/todo/presentation/page/item_page.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_event.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_state.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_state.dart';
+import 'package:text_editor_test/features/todo/presentation/page/todo_title_page.dart';
 import 'package:text_editor_test/utils/constants.dart';
 
 class TodoPage extends StatelessWidget {
@@ -23,7 +30,6 @@ class TodoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationFailure) {
@@ -35,7 +41,11 @@ class TodoPage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           floatingActionButton: ElevatedButton(
-              onPressed: () {}, child: Text('Load from Firebase')),
+              onPressed: () {
+                // context.read<TodoDatabaseBloc>().add(LoadTodoDataEvent());
+                context.read<TodoBloc>().add(GetTodoDatabaseEvent());
+              },
+              child: Text('Load from Firebase')),
           appBar: AppBar(
             actions: <Widget>[
               IconButton(
@@ -89,11 +99,16 @@ class TodoPage extends StatelessWidget {
               // ),
               BlocListener<TodoBloc, TodoState>(
                 listener: (context, state) {
-                  if (state is TodoLoaded) {
-                    // todo.addAll(state.todo);
-                  }
+                  // todo.addAll(state.todo);
                 },
               ),
+              BlocListener<TodoTitleBloc, TodoTitleState>(
+                listener: (BuildContext context, TodoTitleState state) {
+                  if (state is TodoTitleUpdated) {
+                    state.todo;
+                  }
+                },
+              )
             ],
             child: BlocBuilder<TodoBloc, TodoState>(
               builder: (context, state) {
@@ -111,18 +126,37 @@ class TodoPage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.todo.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        color: Color.fromARGB(255, 255, 225, 222),
-                        child: ListTile(
-                          trailing: InkWell(
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                              onTap: () {
-                                context.read<TodoBloc>().add(DeleteTodoEvent(id: state.todo[index].id, todoTitle: state.todo[index].title));
-                              }),
-                          title: Text(state.todo[index].title),
+                      return InkWell(
+                        onTap: () {
+                          context.read<TodoTitleBloc>().add(AddOneTodoEvent(todo: state.todo[index]));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (context) => TodoTitlePage(
+                          //           // updatedTodo: state.todo[index],
+                          //         )));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TodoTitlePage()));
+                        },
+                        child: Card(
+                          color: Color.fromARGB(255, 255, 225, 222),
+                          child: ListTile(
+                            trailing: InkWell(
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onTap: () {
+                                  // context.read<TodoBloc>().add(
+                                  //     DeleteTodoFirebaseEvent(
+                                  //         id: state.todo[index].id,
+                                  //         todoTitle: state.todo[index].title!));
+                                  context.read<TodoBloc>().add(DeleteTodoEvent(
+                                      id: state.todo[index].id,
+                                      todoTitle: state.todo[index].title!));
+                                }),
+                            title: Text(state.todo[index].title!),
+                          ),
                         ),
                       );
                     },
@@ -131,47 +165,45 @@ class TodoPage extends StatelessWidget {
                 return SizedBox.shrink();
               },
             ),
+            // child: BlocBuilder<TodoDatabaseBloc, TodoDatabaseState>(
+            //   builder: (context, state) {
+            //     if (state is TodoDatabaseLoading) {
+            //       return const Center(child: CircularProgressIndicator());
+            //     } else if (state is TodoDatabaseSuccess) {
+            //       if (state.listOfTodo.isEmpty) {
+            //         return const Center(
+            //           child: Text(Constants.textNoData),
+            //         );
+            //       } else {
+            //         return ListView.builder(
+            //           shrinkWrap: true,
+            //           itemCount: state.listOfTodo.length,
+            //           itemBuilder: (BuildContext context, int index) {
+            //             return Card(
+            //               color: Color.fromARGB(255, 207, 203, 255),
+            //               child: ListTile(
+            //                 trailing: InkWell(
+            //                     child: Icon(
+            //                       Icons.delete,
+            //                       color: Colors.red,
+            //                     ),
+            //                     onTap: () {
+            //                       context.read<TodoDatabaseBloc>().add(
+            //                           DeleteTotoDataEvent(
+            //                               id: state.listOfTodo[index].id));
+            //                     }),
+            //                 title: Text(state.listOfTodo[index].textTitle!),
+            //               ),
+            //             );
+            //           },
+            //         );
+            //       }
+            //     } else {
+            //       return SizedBox.shrink();
+            //     }
+            //   },
+            // ),
           ),
-          // body: BlocBuilder<DatabaseBloc, DatabaseState>(
-          //   builder: (context, state) {
-          //     String? displayName = (context.read<AuthenticationBloc>().state
-          //             as AuthenticationSuccess)
-          //         .displayName;
-          //     if (state is DatabaseSuccess &&
-          //         displayName !=
-          //             (context.read<DatabaseBloc>().state as DatabaseSuccess)
-          //                 .displayName) {
-          //       context.read<DatabaseBloc>().add(DatabaseFetched(displayName));
-          //     }
-          //     if (state is DatabaseInitial) {
-          //       context.read<DatabaseBloc>().add(DatabaseFetched(displayName));
-          //       return const Center(child: CircularProgressIndicator());
-          //     } else if (state is DatabaseSuccess) {
-          //       if (state.listOfUserData.isEmpty) {
-          //         return const Center(
-          //           child: Text(Constants.textNoData),
-          //         );
-          //       } else {
-          // return Center(
-          //   child: ListView.builder(
-          //     itemCount: state.listOfUserData.length,
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return Card(
-          //         child: ListTile(
-          //           title:
-          //               Text(state.listOfUserData[index].displayName!),
-          //           subtitle: Text(state.listOfUserData[index].email!),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // );
-          //       }
-          //     } else {
-          //       return const Center(child: CircularProgressIndicator());
-          //     }
-          //   },
-          // ),
         );
       },
     );

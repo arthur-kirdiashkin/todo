@@ -1,15 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_event.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_state.dart';
 
-// class TodoGetBloc extends Bloc<TodoGetEvent, TodoGetState> {
-//   final TodoRepository todoRepository;
-//   TodoGetBloc({required this.todoRepository}) : super(TodoInitial()) {
-//     // on<AddTodoEvent>(_addTodoEvent);
-//     on<GetTodoEvent>(_getTodoEvent);
+class TodoGetBloc extends Bloc<TodoGetEvent, TodoGetState> {
+  final TodoRepository todoRepository;
+  TodoGetBloc({required this.todoRepository}) : super(TodoGetInitial()) {
+    // on<AddTodoEvent>(_addTodoEvent);
+    on<GetTodolistEvent>(_getTodolistEvent);
     // on<DeleteTodoEvent>(_deleteTodoEvent);
-  // }
+  }
   // _addTodoEvent(AddTodoEvent event, emit) async {
   //   emit(TodoLoading());
   //   List<Todo> myTodos = [];
@@ -25,11 +25,11 @@ import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_g
   //   }
   // }
 
-  // _getTodoEvent(GetTodoEvent event, emit) async {
-  //   emit(TodoLoading());
-  //   final todo = await todoRepository.getTodo();
-  //   emit(TodoLoaded(todo!));
-  // }
+  _getTodolistEvent(GetTodolistEvent event, emit) async {
+    emit(TodoGetLoading());
+    final todo = await todoRepository.getTodo();
+    emit(TodoGetLoaded(todo!));
+  }
 
   // _deleteTodoEvent(DeleteTodoEvent event, emit) async {
   //   final deleteTodo = await todoRepository.deleteTodo(Todo(
@@ -37,4 +37,4 @@ import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_g
   //     title: title,
   //   ));
   // }
-// }
+}

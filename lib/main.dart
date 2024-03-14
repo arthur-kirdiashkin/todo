@@ -12,12 +12,15 @@ import 'package:text_editor_test/features/auth/presentation/authBloc/authenticat
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_event.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_state.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
+import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_page.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_add_bloc/todo_add_event.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/todo_get_bloc/todo_get_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_event.dart';
 import 'package:text_editor_test/firebase_options.dart';
 import 'package:text_editor_test/locator.dart';
 import 'package:text_editor_test/utils/constants.dart';
@@ -42,6 +45,9 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
+          create: (context) => TodoDatabaseRepositoryImpl(),
+        ),
+        RepositoryProvider(
           create: (context) => AuthenticationRepositoryImpl(),
         ),
         RepositoryProvider(
@@ -53,8 +59,15 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (context) =>
-                  TodoBloc(todoRepository: TodoRepositoryImpl())..add(GetTodoEvent())
-                    ),
+                  TodoTitleBloc(todoRepository: TodoRepositoryImpl(), todoDatabaseRepository: TodoDatabaseRepositoryImpl())),
+          BlocProvider(
+            create: (context) => TodoDatabaseBloc(TodoDatabaseRepositoryImpl()),
+          ),
+          BlocProvider(
+              create: (context) => TodoBloc(
+                  todoRepository: TodoRepositoryImpl(),
+                  todoDatabaseRepository: TodoDatabaseRepositoryImpl())
+                ..add(GetTodoEvent())),
           // BlocProvider(
           //     create: (context) =>
           //         TodoAddBloc(todoRepository: TodoRepositoryImpl())),
