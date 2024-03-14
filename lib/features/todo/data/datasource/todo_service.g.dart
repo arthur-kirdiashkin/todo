@@ -18,21 +18,24 @@ class TodoAdapter extends TypeAdapter<Todo> {
     };
     return Todo(
       id: fields[2] as int,
-      title: fields[0] as String,
+      title: fields[0] as String?,
       status: fields[1] as TodoStatus?,
+      subTitle: fields[3] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Todo obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.status)
       ..writeByte(2)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(3)
+      ..write(obj.subTitle);
   }
 
   @override

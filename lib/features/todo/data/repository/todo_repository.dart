@@ -12,6 +12,10 @@ abstract class TodoRepository {
 
   Future<List<Todo>?> getTodo();
 
+  Future<Todo>? updateTodoTitle(Todo todo, String titile);
+
+  Future<Todo>? updateSubtitle(Todo todo, String subTitle);
+
   void openBox();
 }
 
@@ -47,6 +51,7 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<Box> openBox() async {
+    // Hive.deleteBoxFromDisk('HiveTodos');
     return await Hive.openBox('HiveTodos');
   }
 
@@ -61,6 +66,27 @@ class TodoRepositoryImpl implements TodoRepository {
       }
     }
     print(todoBox.values);
+    return todo;
+  }
+
+  @override
+  Future<Todo>? updateTodoTitle(Todo todo, String title) async {
+    todo.title = title;
+    todo.save();
+    final todoBox = await openBox();
+    todoBox.put(todo.id, todo);
+    print(todoBox.values);
+    return todo;
+  }
+
+  @override
+  Future<Todo>? updateSubtitle(Todo todo, String subtitle) async {
+    todo.subTitle = subtitle;
+    todo.save();
+    final todoBox = await openBox();
+    todoBox.put(todo.id, todo);
+    print(todoBox.values);
+
     return todo;
   }
 

@@ -1,16 +1,16 @@
-// import 'package:equatable/equatable.dart';
-// import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
+import 'package:equatable/equatable.dart';
+import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 
-// abstract class TodoGetState extends Equatable {
-//   const TodoGetState();
-// }
+abstract class TodoGetState extends Equatable {
+  const TodoGetState();
+}
 
-// class TodoInitial extends TodoGetState {
-//   const TodoInitial();
+class TodoGetInitial extends TodoGetState {
+  const TodoGetInitial();
   
-//   @override
-//   List<Object?> get props => [];
-// }
+  @override
+  List<Object?> get props => [];
+}
 
 // class TodoAdded extends TodoGetState {
 //   const TodoAdded();
@@ -19,26 +19,26 @@
 //   List<Object?> get props => [];
 // }
 
-// class TodoLoading extends TodoGetState {
-//   const TodoLoading();
-//   @override
-//   List<Object?> get props => [];
-// }
+class TodoGetLoading extends TodoGetState {
+  const TodoGetLoading();
+  @override
+  List<Object?> get props => [];
+}
 
 
 
-// class TodoLoaded extends TodoGetState {
-//   final List<Todo> todo;
-//   const TodoLoaded(this.todo);
-//   @override
-//   List<Object?> get props => [todo];
-// }
+class TodoGetLoaded extends TodoGetState {
+  final List<Todo> todo;
+  const TodoGetLoaded(this.todo);
+  @override
+  List<Object?> get props => [todo];
+}
 
 
 
-// class TodoError extends TodoGetState {
-//   final String message;
-//   const TodoError(this.message);
-//   @override
-//   List<Object?> get props => [message];
-// }
+class TodoGetError extends TodoGetState {
+  final String message;
+  const TodoGetError(this.message);
+  @override
+  List<Object?> get props => [message];
+}

@@ -8,8 +8,8 @@ class TodoModel extends Equatable {
 
   TodoModel({
     this.isDone,
-    this.textTitle,
-    this.id,
+    required this.textTitle,
+    required this.id,
   });
 
   Map<String, dynamic> toMap() {

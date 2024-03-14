@@ -5,21 +5,30 @@ import 'package:text_editor_test/features/todo/data/models/todo_model.dart';
 class TodoDatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-   Future<Todo?> addTodoDatabase(TodoModel todo) async {
+  Future<Todo?> addTodoDatabase(Todo todo) async {
     await _db.collection("Todolist").doc(todo.id.toString()).set(todo.toMap());
   }
 
-    Future<List<TodoModel>> retrieveTodoDatabase() async {
+  Future<List<Todo>> getTodoDatabase() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
-        await _db.collection("Todolist").get(); 
+        await _db.collection("Todolist").get();
     return snapshot.docs
-        .map((docSnapshot) => TodoModel.fromDocumentSnapshot(docSnapshot))
+        .map((docSnapshot) => Todo.fromDocumentSnapshot(docSnapshot))
         .toList();
-    }
+  }
 
-        Future<String> retrieveTodoTitle(Todo todo) async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await _db.collection("Todolist").doc(todo.id.toString()).get();
-    return snapshot.data()!['textTitle'];
-    }
+  Future<void>? deleteTodoDatabase(String id) async {
+    DocumentReference _documentReference = _db.collection("Todolist").doc(id);
+    await _documentReference.delete();
+  }
+
+  Future<Todo?> updateTodoTitleDatabase(Todo todo, String title) async {
+    await _db.collection("Todolist").doc(todo.id.toString()).update({'title' : title});
+    print(todo.title);
+  }
+
+  Future<Todo?> updateTodoSubtitleDatabase(Todo todo, String subTitle) async {
+    await _db.collection("Todolist").doc(todo.id.toString()).update({'subTitle' : subTitle});
+  }
 }
+
