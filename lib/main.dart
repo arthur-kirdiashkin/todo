@@ -45,41 +45,29 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (context) => TodoDatabaseRepositoryImpl(),
-        ),
+            create: (context) => locator<TodoDatabaseRepository>()),
         RepositoryProvider(
-          create: (context) => AuthenticationRepositoryImpl(),
-        ),
-        RepositoryProvider(
-          create: (context) => DatabaseRepositoryImpl(),
-        ),
-        RepositoryProvider(create: (context) => TodoRepositoryImpl())
+            create: (context) => locator<AuthenticationRepository>()),
+        RepositoryProvider(create: (context) => locator<DatabaseRepository>()),
+        RepositoryProvider(create: (context) => locator<TodoRepository>())
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => locator<TodoTitleBloc>()),
+          BlocProvider(create: (context) => locator<TodoDatabaseBloc>()),
           BlocProvider(
-              create: (context) => TodoTitleBloc(
-                  todoRepository: TodoRepositoryImpl(),
-                  todoDatabaseRepository: TodoDatabaseRepositoryImpl())),
-          BlocProvider(
-            create: (context) => TodoDatabaseBloc(TodoDatabaseRepositoryImpl()),
-          ),
-          BlocProvider(
-              create: (context) => TodoBloc(
-                  todoRepository: TodoRepositoryImpl(),
-                  todoDatabaseRepository: TodoDatabaseRepositoryImpl())
+              create: (context) => locator<TodoBloc>()
                 ..add(GetTodoEvent())),
           BlocProvider(
+            create: (context) => locator<AuthenticationBloc>()
+              ..add(AuthenticationStarted()),
+          ),
+          BlocProvider(
+            create: (context) => locator<FormBloc>()
+          ),
+          BlocProvider(
             create: (context) =>
-                AuthenticationBloc(AuthenticationRepositoryImpl())
-                  ..add(AuthenticationStarted()),
-          ),
-          BlocProvider(
-            create: (context) => FormBloc(
-                AuthenticationRepositoryImpl(), DatabaseRepositoryImpl()),
-          ),
-          BlocProvider(
-            create: (context) => DatabaseBloc(DatabaseRepositoryImpl()),
+                locator<DatabaseBloc>()
           )
         ],
         child: MaterialApp(
