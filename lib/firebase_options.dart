@@ -23,17 +23,11 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        return web;
+      return macos;
         // throw UnsupportedError(
         //   'DefaultFirebaseOptions have not been configured for windows - '
         //   'you can reconfigure this by running the FlutterFire CLI again.',
@@ -65,5 +59,23 @@ class DefaultFirebaseOptions {
     messagingSenderId: '839957518751',
     projectId: 'todotest-9bc35',
     storageBucket: 'todotest-9bc35.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyD0o4hUv9qi-2w6FX3v9heoiTwxQq_IYJs',
+    appId: '1:839957518751:ios:d7cea53d2ab4783af845aa',
+    messagingSenderId: '839957518751',
+    projectId: 'todotest-9bc35',
+    storageBucket: 'todotest-9bc35.appspot.com',
+    iosBundleId: 'com.example.textEditorTest',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyD0o4hUv9qi-2w6FX3v9heoiTwxQq_IYJs',
+    appId: '1:839957518751:ios:18c1b9da5a0db41af845aa',
+    messagingSenderId: '839957518751',
+    projectId: 'todotest-9bc35',
+    storageBucket: 'todotest-9bc35.appspot.com',
+    iosBundleId: 'com.example.textEditorTest.RunnerTests',
   );
 }

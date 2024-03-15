@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_editor_test/features/auth/data/repository/authentication_repository.dart';
 import 'package:text_editor_test/features/auth/data/user.dart';
 import 'package:text_editor_test/features/auth/database/database_repository.dart';
@@ -10,6 +11,7 @@ part 'form_state.dart';
 class FormBloc extends Bloc<FormEvent, FormsValidate> {
   final AuthenticationRepository authenticationRepository;
   final DatabaseRepository databaseRepository;
+  late SharedPreferences prefs;
   FormBloc(
       {required this.authenticationRepository,
       required this.databaseRepository})
@@ -110,6 +112,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
 
   _updateUIAndSignUp(
       FormSubmitted event, Emitter<FormsValidate> emit, MyUser user) async {
+    prefs = await SharedPreferences.getInstance();
     emit(state.copyWith(
         errorMessage: "",
         isFormValid: _isPasswordValid(state.password) &&
@@ -120,19 +123,16 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
     if (state.isFormValid) {
       try {
         UserCredential? authUser = await authenticationRepository.signUp(user);
+        print(authUser);
         MyUser updatedUser = user.copyWith(
             uid: authUser!.user!.uid, isVerified: authUser.user!.emailVerified);
         await databaseRepository.saveUserData(updatedUser);
-        if (updatedUser.isVerified!) {
-          emit(state.copyWith(isLoading: false, errorMessage: ""));
-        } else {
-          emit(state.copyWith(
-              isFormValid: false,
-              errorMessage:
-                  "Please Verify your email, by clicking the link sent to you by mail.",
-              isLoading: false));
-        }
+        await prefs.setBool('currentUser', true);
+
+        emit(state.copyWith(isLoading: false, errorMessage: ""));
+
       } on FirebaseAuthException catch (e) {
+        print(e);
         emit(state.copyWith(
             isLoading: false, errorMessage: e.message, isFormValid: false));
       }
@@ -144,6 +144,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
 
   _authenticateUser(
       FormSubmitted event, Emitter<FormsValidate> emit, MyUser user) async {
+    prefs = await SharedPreferences.getInstance();
     emit(state.copyWith(
         errorMessage: "",
         isFormValid:
@@ -154,6 +155,8 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
         UserCredential? authUser = await authenticationRepository.signIn(user);
         MyUser updatedUser =
             user.copyWith(isVerified: authUser!.user!.emailVerified);
+        print(updatedUser);
+        await prefs.setBool('currentUser', true);
         if (updatedUser.isVerified!) {
           emit(state.copyWith(isLoading: false, errorMessage: ""));
         } else {

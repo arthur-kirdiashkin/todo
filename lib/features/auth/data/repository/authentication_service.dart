@@ -5,7 +5,16 @@ class AuthenticationService {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   Stream<MyUser> retrieveCurrentUser() {
+    // return auth.authStateChanges().listen((User? user) { 
+    //   if(user != null) {
+    //     return MyUser(uid: user.uid, email: user.email,);
+    //   } else {
+    //     return MyUser(uid: "uid",);
+    //   }
+    // });
+    
     return auth.authStateChanges().map((User? user) {
+      print(user?.email);
       if (user != null) {
         return MyUser(uid: user.uid, email: user.email,);
       } else {
@@ -37,8 +46,14 @@ class AuthenticationService {
 
   Future<void> verifyEmail() async {
     User? user = FirebaseAuth.instance.currentUser;
+    print(user);
     if (user != null && !user.emailVerified) {
-      return await user.sendEmailVerification();
+       try {
+         await user!.sendEmailVerification();
+       } catch (e) {
+         throw Exception(e.toString());
+       }
+       
     }
   }
 

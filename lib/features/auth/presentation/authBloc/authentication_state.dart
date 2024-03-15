@@ -20,6 +20,10 @@ class AuthenticationSuccess extends AuthenticationState {
   List<Object?> get props => [displayName];
 }
 
+class AuthenticationNotSuccess extends AuthenticationState{
+  
+}
+
 class AuthenticationFailure extends AuthenticationState {
       @override
   List<Object?> get props => [];
