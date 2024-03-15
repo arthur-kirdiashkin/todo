@@ -7,6 +7,7 @@ import 'package:text_editor_test/features/auth/data/repository/authentication_re
 import 'package:text_editor_test/features/auth/database/bloc/database_bloc.dart';
 import 'package:text_editor_test/features/auth/database/database_repository.dart';
 import 'package:text_editor_test/features/auth/form-validation/bloc/form_bloc.dart';
+import 'package:text_editor_test/features/auth/form-validation/sign_up_page.dart';
 import 'package:text_editor_test/features/auth/form-validation/welcome_page.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_bloc.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_event.dart';
@@ -28,7 +29,13 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final FirebaseApp app = await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform);
+  final FirebaseAuth auth = FirebaseAuth.instanceFor(app: app);
+
+  // await auth.useAuthEmulator('localhost', 9099);
+
   // final appDocument = await path_provider.getApplicationDocumentsDirectory();
   // Hive.init(appDocument.path);
   // Hive.registerAdapter<Todo>(TodoAdapter());
@@ -56,25 +63,33 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => locator<TodoTitleBloc>()),
           BlocProvider(create: (context) => locator<TodoDatabaseBloc>()),
           BlocProvider(
-              create: (context) => locator<TodoBloc>()
-                ..add(GetTodoEvent())),
-          BlocProvider(
-            create: (context) => locator<AuthenticationBloc>()
-              ..add(AuthenticationStarted()),
-          ),
-          BlocProvider(
-            create: (context) => locator<FormBloc>()
-          ),
+              create: (context) => locator<TodoBloc>()..add(GetTodoEvent())),
           BlocProvider(
             create: (context) =>
-                locator<DatabaseBloc>()
-          )
+                locator<AuthenticationBloc>()..add(AuthenticationStarted()),
+          ),
+          BlocProvider(create: (context) => locator<FormBloc>()),
+          BlocProvider(create: (context) => locator<DatabaseBloc>())
         ],
         child: MaterialApp(
             home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationSuccess) {
               return const TodoPage();
+            } else if (state is AuthenticationNotSuccess) {
+              return WelcomePage();
+            } else if (state is AuthenticationFailure) {
+              return Scaffold(
+                  floatingActionButton: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => WelcomePage()),
+                          (route) => false);
+                    },
+                    child: Text('Go to Start Page'),
+                  ),
+                  body: Center(child: Text('Ошибка авторизации пользователя')));
             } else {
               return const WelcomePage();
             }

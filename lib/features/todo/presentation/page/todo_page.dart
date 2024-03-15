@@ -23,8 +23,9 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_state.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_title_page.dart';
+import 'package:text_editor_test/features/todo/presentation/page/todo_title_page_windows.dart';
 import 'package:text_editor_test/utils/constants.dart';
-import 'dart:io' show Platform;
+// import 'dart:io' show Platform;
 
 class TodoPage extends StatelessWidget {
   const TodoPage({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class TodoPage extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.blue,
             actions: <Widget>[
-              addButton(context)!,
+              // addButton(context)!,
               IconButton(
                   icon: const Icon(
                     Icons.logout,
@@ -98,25 +99,16 @@ class TodoPage extends StatelessWidget {
                           context
                               .read<TodoTitleBloc>()
                               .add(AddOneTodoEvent(todo: state.todo[index]));
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TodoTitlePage()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => selectTodoTitlePage()!,
+                          //     ));
                         },
                         child: Card(
                           color: Color.fromARGB(255, 255, 225, 222),
                           child: ListTile(
-                            trailing: deleteIcon(context, state.todo, index),
-                            // trailing: InkWell(
-                            //     child: Icon(
-                            //       Icons.delete,
-                            //       color: Colors.red,
-                            //     ),
-                            //     onTap: () {
-                            //       context.read<TodoBloc>().add(DeleteTodoEvent(
-                            //           id: state.todo[index].id,
-                            //           todoTitle: state.todo[index].title!));
-                            //     }),
+                            // trailing: deleteIcon(context, state.todo, index),
                             title: Text(state.todo[index].title!),
                           ),
                         ),
@@ -133,35 +125,43 @@ class TodoPage extends StatelessWidget {
     );
   }
 
-  Widget? addButton(context) {
-    if (Platform.isAndroid) {
-      return SizedBox.shrink();
-    } else if (Platform.isWindows) {
-      return IconButton(
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ItemPage()));
-          });
-    }
-  }
+  // Widget? addButton(context) {
+  //   if (Platform.isAndroid) {
+  //     return SizedBox.shrink();
+  //   } else if (Platform.isWindows) {
+  //     return IconButton(
+  //         icon: const Icon(
+  //           Icons.add,
+  //           color: Colors.white,
+  //         ),
+  //         onPressed: () {
+  //           Navigator.of(context)
+  //               .push(MaterialPageRoute(builder: (context) => ItemPage()));
+  //         });
+  //   }
+  // }
 
-  Widget? deleteIcon(BuildContext context,  todo, int index) {
-    if (Platform.isAndroid) {
-      return SizedBox.shrink();
-    } else if (Platform.isWindows) {
-      return InkWell(
-          child: Icon(
-            Icons.delete,
-            color: Colors.red,
-          ),
-          onTap: () {
-            context.read<TodoBloc>().add(DeleteTodoEvent(
-                id: todo[index].id, todoTitle: todo[index].title!));
-          });
-    }
-  }
+  // Widget? deleteIcon(BuildContext context, todo, int index) {
+  //   if (Platform.isAndroid) {
+  //     return SizedBox.shrink();
+  //   } else if (Platform.isWindows) {
+  //     return InkWell(
+  //         child: Icon(
+  //           Icons.delete,
+  //           color: Colors.red,
+  //         ),
+  //         onTap: () {
+  //           context.read<TodoBloc>().add(DeleteTodoEvent(
+  //               id: todo[index].id, todoTitle: todo[index].title!));
+  //         });
+  //   }
+  // }
+
+  // Widget? selectTodoTitlePage() {
+  //   if (Platform.isAndroid) {
+  //     return TodoTitlePage();
+  //   } else if (Platform.isWindows) {
+  //     return TodoTitlePageWindows();
+  //   }
+  // }
 }
