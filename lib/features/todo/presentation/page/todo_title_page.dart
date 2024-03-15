@@ -8,7 +8,9 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_event.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_state.dart';
-// import 'dart:io' show Platform;
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 class TodoTitlePage extends StatefulWidget {
   TodoTitlePage({
@@ -35,7 +37,7 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
         }
         if (state is TodoTitleLoaded) {
           return Scaffold(
-            // floatingActionButton: useButton(state.todo),
+            floatingActionButton: useButton(state.todo),
             appBar: AppBar(
               title: Text(state.todo.title!),
             ),
@@ -58,7 +60,7 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
           );
         } else if (state is TodoTitleUpdated) {
           return Scaffold(
-            // floatingActionButton: useButton(state.todo),
+            floatingActionButton: useButton(state.todo),
             appBar: AppBar(
               title: Text(state.todo.title!),
             ),
@@ -87,33 +89,33 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
     );
   }
 
-  // bool? isEnabled() {
-  //   if (Platform.isAndroid) {
-  //     return false;
-  //   } else if (Platform.isWindows) {
-  //     return true;
-  //   }
-  // }
+  bool? isEnabled() {
+    if (kIsWeb) {
+      return true;
+    } else if (Platform.isAndroid) {
+      return false;
+    }
+  }
 
-  // Widget? useButton(Todo todo) {
-  //   if (Platform.isAndroid) {
-  //     return SizedBox.shrink();
-  //   } else if (Platform.isWindows) {
-  //     return ElevatedButton(
-  //       style: ButtonStyle(),
-  //       onPressed: () {
-  //         context.read<TodoTitleBloc>().add(UpdateTodoSubTitleEvent(
-  //               todo: todo,
-  //               subTitle: subTitleController.text,
-  //             ));
-  //         context.read<TodoBloc>().add(GetTodoEvent());
-  //         Navigator.of(context).pop();
-  //       },
-  //       child: Text(
-  //         'Ok and Save',
-  //         style: TextStyle(fontSize: 25),
-  //       ),
-  //     );
-  //   }
-  // }
+  Widget? useButton(Todo todo) {
+    if (kIsWeb) {
+      return ElevatedButton(
+        style: ButtonStyle(),
+        onPressed: () {
+          context.read<TodoTitleBloc>().add(UpdateTodoSubTitleEvent(
+                todo: todo,
+                subTitle: subTitleController.text,
+              ));
+          context.read<TodoBloc>().add(GetTodoEvent());
+          Navigator.of(context).pop();
+        },
+        child: Text(
+          'Ok and Save',
+          style: TextStyle(fontSize: 25),
+        ),
+      );
+    } else if (Platform.isAndroid) {
+      return SizedBox.shrink();
+    }
+  }
 }
