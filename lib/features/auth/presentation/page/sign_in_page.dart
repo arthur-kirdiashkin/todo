@@ -2,6 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_auth/local_auth.dart';
+
+import 'package:text_editor_test/features/auth/biometric/bloc/biometric_bloc.dart';
 import 'package:text_editor_test/features/auth/form-validation/bloc/form_bloc.dart';
 import 'package:text_editor_test/features/auth/form-validation/sign_up_page.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_bloc.dart';
@@ -13,8 +16,20 @@ import 'package:text_editor_test/utils/constants.dart';
 OutlineInputBorder border = const OutlineInputBorder(
     borderSide: BorderSide(color: Constants.kBorderColor, width: 3.0));
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  SignInPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final LocalAuthentication auth = LocalAuthentication();
+  String? email;
+
+  String? password;
+
+  int tries = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +60,13 @@ class SignInPage extends StatelessWidget {
             }
           },
         ),
+        // BlocListener<BiometricBloc, BiometricState>(
+        //   listener: (context, state) {
+        //     if (state is BiometricTriesExceededState) {
+        //       biometric = false;
+        //     }
+        //   },
+        // ),
       ],
       child: Scaffold(
           appBar: AppBar(

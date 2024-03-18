@@ -105,10 +105,13 @@ class TodoPageWindows extends StatelessWidget {
                     itemCount: state.todo.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
+                        onLongPress: () {
+                          print(1);
+                        },
                         onTap: () {
-                          context
-                              .read<TodoTitleBloc>()
-                              .add(AddOneTodoEvent(todo: state.todo[index]));
+                          // context
+                          //     .read<TodoTitleBloc>()
+                          //     .add(AddOneTodoEvent(todo: state.todo[index]));
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(

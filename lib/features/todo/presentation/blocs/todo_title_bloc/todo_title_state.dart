@@ -47,3 +47,17 @@ class TodoTitleError extends TodoTitleState {
   // TODO: implement props
   List<Object?> get props => [];
 }
+
+class QRCodeTodoTitleLoaded extends TodoTitleState {
+  // final Todo todo;
+  final String todoJson;
+
+  QRCodeTodoTitleLoaded({
+    // required this.todo,
+    required this.todoJson,
+    });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [todoJson];
+}

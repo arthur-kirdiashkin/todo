@@ -8,11 +8,21 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class AuthenticationStarted extends AuthenticationEvent {
-      @override
+  @override
   List<Object> get props => [];
 }
 
 class AuthenticationSignedOut extends AuthenticationEvent {
-      @override
+  @override
   List<Object> get props => [];
+}
+
+class LoginWithBiometricEvent extends AuthenticationEvent {
+  // final String? email;
+  // final String? password;
+
+  LoginWithBiometricEvent(
+    // required this.email,
+    // required this.password,
+  );
 }
