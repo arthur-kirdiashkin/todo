@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:text_editor_test/features/auth/biometric/biometric_repository.dart';
+import 'package:text_editor_test/features/auth/biometric/bloc/biometric_bloc.dart';
 import 'package:text_editor_test/features/auth/data/repository/authentication_repository.dart';
 import 'package:text_editor_test/features/auth/database/bloc/database_bloc.dart';
 import 'package:text_editor_test/features/auth/database/database_repository.dart';
@@ -32,6 +34,7 @@ Future<void> initDependency() async {
   locator.registerLazySingleton<DatabaseRepository>(
       () => DatabaseRepositoryImpl());
   locator.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl());
+  locator.registerLazySingleton<BiometricRepository>(() => BiometricRepositoryImpl());
 
   locator.registerFactory(() => TodoTitleBloc(
       todoRepository: locator<TodoRepository>(),
@@ -48,6 +51,7 @@ Future<void> initDependency() async {
   locator.registerFactory(() => FormBloc(
       authenticationRepository: locator<AuthenticationRepository>(),
       databaseRepository: locator<DatabaseRepository>()));
+  locator.registerFactory(() => BiometricBloc(biometricRepository: locator<BiometricRepository>()));
 
   // locator.registerSingleton<Box<Todo>>(
   //   Hive.box('HiveTodos')

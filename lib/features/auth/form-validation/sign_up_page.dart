@@ -43,7 +43,7 @@ class SignUpPage extends StatelessWidget {
             listener: (context, state) {
               if (state is AuthenticationSuccess) {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const SignInPage()),
+                    MaterialPageRoute(builder: (context) =>  SignInPage()),
                     (Route<dynamic> route) => false);
               }
             },

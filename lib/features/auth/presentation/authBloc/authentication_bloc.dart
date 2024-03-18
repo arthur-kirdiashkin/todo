@@ -4,7 +4,10 @@ import 'package:text_editor_test/features/auth/data/repository/authentication_re
 import 'package:text_editor_test/features/auth/data/user.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_event.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_state.dart';
-
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationRepository authenticationRepository;
@@ -15,13 +18,12 @@ class AuthenticationBloc
     on<AuthenticationEvent>((event, emit) async {
       prefs = await SharedPreferences.getInstance();
       if (event is AuthenticationStarted) {
-        if (prefs.getBool('currentUser') == true) {
+        if(kIsWeb) {
+          prefs.setBool('Biometric On', true);
+        }
+        if (prefs.getBool('currentUser') == true && prefs.getBool('Biometric On') == true) {
+         
           MyUser user = await authenticationRepository.getCurrentUser().first;
-          // if(user.displayName == null) {
-          //   return emit(AuthenticationFailure());
-          // } else {
-          //   return emit(AuthenticationSuccess(displayName: user.displayName));
-          // }
           if (user.uid != "uid") {
             String? displayName =
                 await authenticationRepository.retrieveUserName(user);
@@ -29,18 +31,11 @@ class AuthenticationBloc
           } else {
             emit(AuthenticationFailure());
           }
-        } else if(prefs.getBool('currentUser') == false) {
-            emit(AuthenticationNotSuccess());
-        } 
-        
-        else {
+        } else if (prefs.getBool('currentUser') == false) {
+          emit(AuthenticationNotSuccess());
+        } else {
           emit(AuthenticationNotSuccess());
         }
-        // try {
-        //   emit(AuthenticationSuccess(displayName: user.displayName));
-        // } catch (e) {
-        //   emit(AuthenticationFailure());
-        // }
       } else if (event is AuthenticationSignedOut) {
         prefs.setBool('currentUser', false);
         await authenticationRepository.signOut();

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
@@ -14,6 +16,8 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
     on<UpdateTodoTitleEvent>(_updateTodoTitleEvent);
     on<UpdateTodoSubTitleEvent>(_updateTodoSubTitleEvent);
     on<AddOneTodoEvent>(_addOneTodoEvent);
+    on<AddQRCodeEvent>(_addQRCodeEvent);
+    on<GetTitleFromQRCodeEvent>(_getTitileFromQRCodeEvent);
   }
 
   _updateTodoTitleEvent(UpdateTodoTitleEvent event, emit) async {
@@ -41,5 +45,17 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
   _addOneTodoEvent(AddOneTodoEvent event, emit) async {
     emit(TodoTitleLoading());
     emit(TodoTitleLoaded(todo: event.todo));
+  }
+
+  _addQRCodeEvent(AddQRCodeEvent event, emit) async {
+    emit(TodoTitleLoading());
+    emit(QRCodeTodoTitleLoaded(todoJson: event.todoJson));
+  }
+
+  _getTitileFromQRCodeEvent(GetTitleFromQRCodeEvent event, emit) async {
+    final qrCode = await todoRepository.scanQR();
+    final todo = Todo.fromJson(jsonDecode(qrCode!));
+    emit(TodoTitleLoading());
+    emit(TodoTitleLoaded(todo: todo));
   }
 }

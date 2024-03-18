@@ -30,5 +30,9 @@ class TodoDatabaseService {
   Future<Todo?> updateTodoSubtitleDatabase(Todo todo, String subTitle) async {
     await _db.collection("Todolist").doc(todo.id.toString()).update({'subTitle' : subTitle});
   }
+
+  // Future<Todo?> deleteFromDatabase() {
+    
+  // }
 }
 

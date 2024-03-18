@@ -48,3 +48,21 @@ class AddOneTodoEvent extends TodoTitleEvent {
     // required this.title,
   });
 }
+
+class AddQRCodeEvent extends TodoTitleEvent {
+  // final Todo todo;
+  final String todoJson;
+
+  AddQRCodeEvent({
+    // required this.todo,
+    required this.todoJson,
+  });
+}
+
+class GetTitleFromQRCodeEvent extends TodoTitleEvent {
+  // final Todo qrTodo;
+
+  GetTitleFromQRCodeEvent(
+    // required this.qrTodo,
+  );
+}

@@ -1,5 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 abstract class TodoRepository {
   Future<Todo?> addTodo(Todo todo);
@@ -13,6 +15,8 @@ abstract class TodoRepository {
   Future<Todo>? updateSubtitle(Todo todo, String subTitle);
 
   void openBox();
+
+  Future<String?> scanQR();
 }
 
 class TodoRepositoryImpl implements TodoRepository {
@@ -72,5 +76,18 @@ class TodoRepositoryImpl implements TodoRepository {
     print(todoBox.values);
 
     return todo;
+  }
+
+  @override
+  Future<String?> scanQR() async {
+    String? qrResult;
+    try {
+      final qrCode = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      qrResult = qrCode.toString();
+    } on PlatformException catch (e) {
+      print(e.toString());  
+    }
+    return qrResult;
   }
 }

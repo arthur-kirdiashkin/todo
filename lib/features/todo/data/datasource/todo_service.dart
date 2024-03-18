@@ -47,6 +47,15 @@ class Todo extends HiveObject {
         status = doc.data()!['status'],
         subTitle = doc.data()!['subTitle'];
 
+  factory Todo.fromJson(Map<String, dynamic> json) {
+    return Todo(
+      subTitle: json['subTitle'],
+      id: json['id'],
+      title: json['title'],
+      status: json['status'],
+    );
+  }
+
   void setStatus(TodoStatus status) {
     this.status = status;
   }
