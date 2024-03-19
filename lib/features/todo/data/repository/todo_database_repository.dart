@@ -8,6 +8,7 @@ abstract class TodoDatabaseRepository {
   Future<void> deleteTodoData(String id);
   Future<void> updateTodoTitleDatabase(Todo todo, String title);
   Future<void> updateTodoSubtitleDatabase(Todo todo, String subTitle);
+  Future<void> deleteAllFromFirebase();
 }
 
 
@@ -38,6 +39,11 @@ class TodoDatabaseRepositoryImpl implements TodoDatabaseRepository {
   @override
   Future<void> updateTodoTitleDatabase(Todo todo, String title) {
     return service.updateTodoTitleDatabase(todo, title);
+  }
+  
+  @override
+  Future<void> deleteAllFromFirebase() {
+    return service.deleteAllFromDatabase();
   }
   
  

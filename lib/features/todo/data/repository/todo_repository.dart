@@ -17,6 +17,8 @@ abstract class TodoRepository {
   void openBox();
 
   Future<String?> scanQR();
+
+  Future<Box?> deleteBox();
 }
 
 class TodoRepositoryImpl implements TodoRepository {
@@ -86,8 +88,14 @@ class TodoRepositoryImpl implements TodoRepository {
           '#ff6666', 'Cancel', true, ScanMode.QR);
       qrResult = qrCode.toString();
     } on PlatformException catch (e) {
-      print(e.toString());  
+      print(e.toString());
     }
     return qrResult;
+  }
+
+  @override
+  Future<Box?> deleteBox() async {
+    final todoBox = await openBox();
+    todoBox.clear();
   }
 }

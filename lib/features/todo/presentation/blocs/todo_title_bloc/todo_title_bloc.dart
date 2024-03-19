@@ -16,7 +16,7 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
     on<UpdateTodoTitleEvent>(_updateTodoTitleEvent);
     on<UpdateTodoSubTitleEvent>(_updateTodoSubTitleEvent);
     on<AddOneTodoEvent>(_addOneTodoEvent);
-    on<AddQRCodeEvent>(_addQRCodeEvent);
+
     on<GetTitleFromQRCodeEvent>(_getTitileFromQRCodeEvent);
   }
 
@@ -45,11 +45,7 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
   _addOneTodoEvent(AddOneTodoEvent event, emit) async {
     emit(TodoTitleLoading());
     emit(TodoTitleLoaded(todo: event.todo));
-  }
-
-  _addQRCodeEvent(AddQRCodeEvent event, emit) async {
-    emit(TodoTitleLoading());
-    emit(QRCodeTodoTitleLoaded(todoJson: event.todoJson));
+    emit(TodoTitleUpdated(todo: event.todo));
   }
 
   _getTitileFromQRCodeEvent(GetTitleFromQRCodeEvent event, emit) async {

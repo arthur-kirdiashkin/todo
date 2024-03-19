@@ -63,6 +63,16 @@ class GetTitleFromQRCodeEvent extends TodoTitleEvent {
   // final Todo qrTodo;
 
   GetTitleFromQRCodeEvent(
-    // required this.qrTodo,
-  );
+      // required this.qrTodo,
+      );
+}
+
+class AddQRCodeSubtitleEvent extends TodoTitleEvent {
+  final Todo todo;
+  final String subtitile;
+
+  AddQRCodeSubtitleEvent({
+    required this.todo,
+    required this.subtitile,
+  });
 }

@@ -13,8 +13,9 @@ import 'package:text_editor_test/features/todo/data/datasource/todo_list_service
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
 
 GetIt locator = GetIt.instance;
@@ -34,8 +35,12 @@ Future<void> initDependency() async {
   locator.registerLazySingleton<DatabaseRepository>(
       () => DatabaseRepositoryImpl());
   locator.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl());
-  locator.registerLazySingleton<BiometricRepository>(() => BiometricRepositoryImpl());
+  locator.registerLazySingleton<BiometricRepository>(
+      () => BiometricRepositoryImpl());
 
+  locator.registerFactory(() => TodoQRCodeBloc(
+        todoRepository: locator<TodoRepository>(),
+      ));
   locator.registerFactory(() => TodoTitleBloc(
       todoRepository: locator<TodoRepository>(),
       todoDatabaseRepository: locator<TodoDatabaseRepository>()));
@@ -51,7 +56,8 @@ Future<void> initDependency() async {
   locator.registerFactory(() => FormBloc(
       authenticationRepository: locator<AuthenticationRepository>(),
       databaseRepository: locator<DatabaseRepository>()));
-  locator.registerFactory(() => BiometricBloc(biometricRepository: locator<BiometricRepository>()));
+  locator.registerFactory(
+      () => BiometricBloc(biometricRepository: locator<BiometricRepository>()));
 
   // locator.registerSingleton<Box<Todo>>(
   //   Hive.box('HiveTodos')

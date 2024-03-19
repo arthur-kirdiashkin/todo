@@ -17,11 +17,11 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_blo
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_event.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_state.dart';
 import 'package:text_editor_test/features/todo/presentation/page/item_page.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_event.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_state.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_state.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_title_page.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_title_page_windows.dart';
 import 'package:text_editor_test/utils/constants.dart';
