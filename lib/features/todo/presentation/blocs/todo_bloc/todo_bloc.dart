@@ -5,8 +5,8 @@ import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart
 import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
 
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_state.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_state.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
@@ -18,6 +18,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<DeleteTodoEvent>(_deleteTodoEvent);
     on<GetTodoDatabaseEvent>(_getTodoDatabaseEvent);
     on<DeleteTodoFirebaseEvent>(_deleteTodoFirebaseEvent);
+    on<DeleteAllDocumentsEvent>(_deleteAllDocumentsEvent);
   }
   _addTodoEvent(AddTodoEvent event, emit) async {
     emit(TodoLoading());
@@ -91,5 +92,33 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         todo!.where((element) => set.add(element.title!)).toList();
 
     emit(TodoLoaded(uniqList));
+  }
+
+  _deleteAllDocumentsEvent(DeleteAllDocumentsEvent event, emit) async {
+    emit(TodoLoading());
+    final deleteAllFromHive = await todoRepository.deleteBox();
+    final deleteAllFromFirebase =
+        await todoDatabaseRepository.deleteAllFromFirebase();
+    List<Todo>? todo = await todoRepository.getTodo();
+    List<Todo> listofTodoData =
+        await todoDatabaseRepository.getTodoFromFirebase();
+
+
+    if (todo == null || todo == []) {
+      todo = [];
+    }
+
+
+    var set = Set<String>();
+
+    if (todo != null) {
+      for (Todo i in listofTodoData) {
+        if (!todo.contains(i)) {
+          await todoRepository.addTodo(i);
+        }
+      }
+    } 
+   
+    emit(TodoLoaded(todo));
   }
 }

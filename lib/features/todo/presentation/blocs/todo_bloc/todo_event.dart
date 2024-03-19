@@ -59,3 +59,10 @@ class GetTodoEvent extends TodoEvent {
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
+
+
+class DeleteAllDocumentsEvent extends TodoEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}

@@ -23,16 +23,25 @@ class TodoDatabaseService {
   }
 
   Future<Todo?> updateTodoTitleDatabase(Todo todo, String title) async {
-    await _db.collection("Todolist").doc(todo.id.toString()).update({'title' : title});
+    await _db
+        .collection("Todolist")
+        .doc(todo.id.toString())
+        .update({'title': title});
     print(todo.title);
   }
 
   Future<Todo?> updateTodoSubtitleDatabase(Todo todo, String subTitle) async {
-    await _db.collection("Todolist").doc(todo.id.toString()).update({'subTitle' : subTitle});
+    await _db
+        .collection("Todolist")
+        .doc(todo.id.toString())
+        .update({'subTitle': subTitle});
   }
 
-  // Future<Todo?> deleteFromDatabase() {
-    
-  // }
-}
+  Future<void> deleteAllFromDatabase() async {
+    var collection = await _db.collection("Todolist").get();
 
+    for (var doc in collection.docs) {
+      await doc.reference.delete();
+    }
+  }
+}

@@ -21,10 +21,10 @@ import 'package:text_editor_test/features/todo/data/repository/todo_repository.d
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_page.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_add_bloc/todo_add_event.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_get_bloc/todo_get_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_bloc.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_event.dart';
 import 'package:text_editor_test/firebase_options.dart';
 import 'package:text_editor_test/locator.dart';
 import 'package:text_editor_test/utils/constants.dart';
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => locator<TodoQRCodeBloc>()),
           BlocProvider(
               create: (context) =>
                   locator<BiometricBloc>()..add(IsBiometricEvent())),
