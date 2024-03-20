@@ -7,7 +7,7 @@ abstract class TodoState extends Equatable {
 
 class TodoInitial extends TodoState {
   const TodoInitial();
-  
+
   @override
   List<Object?> get props => [];
 }
@@ -52,3 +52,4 @@ class TodoError extends TodoState {
   @override
   List<Object?> get props => [message];
 }
+
