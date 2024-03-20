@@ -16,7 +16,6 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
     on<UpdateTodoTitleEvent>(_updateTodoTitleEvent);
     on<UpdateTodoSubTitleEvent>(_updateTodoSubTitleEvent);
     on<AddOneTodoEvent>(_addOneTodoEvent);
-
     on<GetTitleFromQRCodeEvent>(_getTitileFromQRCodeEvent);
   }
 

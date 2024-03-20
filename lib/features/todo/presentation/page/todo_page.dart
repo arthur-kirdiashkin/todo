@@ -88,6 +88,7 @@ class TodoPage extends StatelessWidget {
                 addButton(context)!,
                 IconButton(
                     onPressed: () {
+                      //  context.read<TodoBloc>().add(ShowIsSelectedButtonEvent());
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => SettingsPage()));
                     },
@@ -95,17 +96,6 @@ class TodoPage extends StatelessWidget {
                       Icons.settings,
                       color: Colors.white,
                     )),
-
-                // IconButton(
-                //     icon: const Icon(
-                //       Icons.logout,
-                //       color: Colors.white,
-                //     ),
-                //     onPressed: () async {
-                //       context
-                //           .read<AuthenticationBloc>()
-                //           .add(AuthenticationSignedOut());
-                //     })
               ],
               title: Text((state as AuthenticationSuccess).displayName!),
             ),

@@ -60,9 +60,28 @@ class GetTodoEvent extends TodoEvent {
   List<Object?> get props => throw UnimplementedError();
 }
 
-
 class DeleteAllDocumentsEvent extends TodoEvent {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
+
+class IsSaveInFirebaseEvent extends TodoEvent {
+  final bool isSaveInFirebase;
+
+  IsSaveInFirebaseEvent({
+    required this.isSaveInFirebase,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [isSaveInFirebase];
+}
+
+class ShowIsSelectedButtonEvent extends TodoEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+
+}
+

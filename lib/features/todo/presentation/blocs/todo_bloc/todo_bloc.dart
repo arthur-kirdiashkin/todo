@@ -1,16 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
 
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_state.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
   final TodoDatabaseRepository todoDatabaseRepository;
+  bool isSaveInFirebase = true;
   TodoBloc({required this.todoRepository, required this.todoDatabaseRepository})
       : super(TodoInitial()) {
     on<AddTodoEvent>(_addTodoEvent);
@@ -19,20 +22,32 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<GetTodoDatabaseEvent>(_getTodoDatabaseEvent);
     on<DeleteTodoFirebaseEvent>(_deleteTodoFirebaseEvent);
     on<DeleteAllDocumentsEvent>(_deleteAllDocumentsEvent);
+    on<IsSaveInFirebaseEvent>(_isSaveInFirebaseEvent);
   }
   _addTodoEvent(AddTodoEvent event, emit) async {
     emit(TodoLoading());
     final randomValue = Random().nextInt(50);
-    final todos = await todoDatabaseRepository
-        .saveTodoData(Todo(title: event.todoTitle, id: randomValue));
+    if (isSaveInFirebase == true) {
+      final todos = await todoDatabaseRepository
+          .saveTodoData(Todo(title: event.todoTitle, id: randomValue));
 
-    try {
-      final myTodo = await todoRepository
-          .addTodo(Todo(title: event.todoTitle, id: randomValue));
-      final myTodos = await todoRepository.getTodo();
-      emit(TodoLoaded(myTodos!));
-    } catch (e) {
-      print(e.toString());
+      try {
+        final myTodo = await todoRepository
+            .addTodo(Todo(title: event.todoTitle, id: randomValue));
+        final myTodos = await todoRepository.getTodo();
+        emit(TodoLoaded(myTodos!));
+      } catch (e) {
+        print(e.toString());
+      }
+    } else if (isSaveInFirebase == false) {
+      try {
+        final myTodo = await todoRepository
+            .addTodo(Todo(title: event.todoTitle, id: randomValue));
+        final myTodos = await todoRepository.getTodo();
+        emit(TodoLoaded(myTodos!));
+      } catch (e) {
+        print(e.toString());
+      }
     }
   }
 
@@ -76,8 +91,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   _deleteTodoFirebaseEvent(DeleteTodoFirebaseEvent event, emit) async {
-    List<Todo> todoss = [];
-
     final todo = await todoRepository.getTodo();
 
     final deleteTodoFirebase =
@@ -86,7 +99,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     List<Todo> todosFromFireBase =
         await todoDatabaseRepository.getTodoFromFirebase();
     todo!.addAll(todosFromFireBase);
-    // todo!.remove(todosFromFireBase);
     var set = Set<String>();
     List<Todo> uniqList =
         todo!.where((element) => set.add(element.title!)).toList();
@@ -103,11 +115,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     List<Todo> listofTodoData =
         await todoDatabaseRepository.getTodoFromFirebase();
 
-
     if (todo == null || todo == []) {
       todo = [];
     }
-
 
     var set = Set<String>();
 
@@ -117,8 +127,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
           await todoRepository.addTodo(i);
         }
       }
-    } 
-   
+    }
+
     emit(TodoLoaded(todo));
+  }
+
+  _isSaveInFirebaseEvent(IsSaveInFirebaseEvent event, emit) async {
+    isSaveInFirebase = event.isSaveInFirebase;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isSelected', isSaveInFirebase);
+    print(isSaveInFirebase);
   }
 }
