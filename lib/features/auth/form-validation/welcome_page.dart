@@ -18,7 +18,6 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Image.asset("assets/images/main-img.png"),
                 RichText(
                     textAlign: TextAlign.center,
                     text: const TextSpan(children: <TextSpan>[
@@ -46,7 +45,6 @@ class WelcomePage extends StatelessWidget {
                             builder: (context) =>  SignInPage()),
                       );
                     },
-                    child: const Text(Constants.textStart),
                     style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
                             Constants.kPrimaryColor),
@@ -54,6 +52,7 @@ class WelcomePage extends StatelessWidget {
                             Constants.kBlackColor),
                         side: MaterialStateProperty.all<BorderSide>(
                             BorderSide.none)),
+                    child: const Text(Constants.textStart),
                   ),
                 ),
                 SizedBox(
@@ -66,15 +65,15 @@ class WelcomePage extends StatelessWidget {
                             builder: (context) => const SignUpPage()),
                       );
                     },
-                    child: const Text(
-                      Constants.textSignUpBtn,
-                      style: TextStyle(color: Constants.kBlackColor),
-                    ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Constants.kGreyColor),
                         side: MaterialStateProperty.all<BorderSide>(
                             BorderSide.none)),
+                    child: const Text(
+                      Constants.textSignUpBtn,
+                      style: TextStyle(color: Constants.kBlackColor),
+                    ),
                   ),
                 )
               ],

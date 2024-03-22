@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path_provider: ^2.0.14
+  # path_provider: ^2.0.14
   provider: 
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -46,7 +46,7 @@ dependencies:
   intl: ^0.18.1
   email_validator: ^2.0.1
   get_it: ^7.6.7
-  universal_io: ^2.2.2
+  # universal_io: ^2.2.2
   local_auth: ^2.2.0
   local_auth_android: ^1.0.30
   app_settings: 4.2.0
@@ -55,6 +55,10 @@ dependencies:
   flutter_secure_storage: ^5.0.0
   crypto: ^3.0.1
   encrypt: ^5.0.3
+  secure_shared_preferences: ^0.0.4
+  crypton: ^2.2.1
+  pointycastle: ^3.7.4
+  rsa_encrypt: ^2.0.0
   # firebase_core_desktop: ^1.0.2
   # firebase_auth_desktop: ^1.0.2
   # The following adds the Cupertino Icons font to your application.

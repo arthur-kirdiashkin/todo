@@ -9,11 +9,7 @@ abstract class AuthenticationRepository {
 
   Stream<MyUser> getCurrentUser();
 
-  // Future<void> signIn({required String email, required String password});
 
-  // Future<void> logOut();
-
-  // Future<void> signUp({required String email, required String password});
   Future<UserCredential?> signUp(MyUser user);
 
   Future<UserCredential?> signIn(MyUser user);
@@ -24,7 +20,7 @@ abstract class AuthenticationRepository {
 }
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
-  // final _firebaseAuth = FirebaseAuth.instance;
+
   AuthenticationService service = AuthenticationService();
   DatabaseService dbService = DatabaseService();
   

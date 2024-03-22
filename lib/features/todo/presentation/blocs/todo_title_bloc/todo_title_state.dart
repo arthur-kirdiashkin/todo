@@ -5,7 +5,6 @@ abstract class TodoTitleState extends Equatable {}
 
 class TodoTitleInitial extends TodoTitleState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -14,50 +13,36 @@ class TodoTitleUpdated extends TodoTitleState {
 
   TodoTitleUpdated({required this.todo});
   @override
-  // TODO: implement props
+
   List<Object?> get props => [];
 }
 
 class TodoTitleLoading extends TodoTitleState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class TodoTitleLoaded extends TodoTitleState {
-  // final String subtitle;
-  // final String title;
-  // final int id;
   final Todo todo;
 
   TodoTitleLoaded({required this.todo});
-  // TodoTitleLoaded({
-  //   required this.title,
-  //   required this.id,
-  //   required this.subtitle,
-  // });
 
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
 class TodoTitleError extends TodoTitleState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class QRCodeTodoTitleLoaded extends TodoTitleState {
-  // final Todo todo;
   final String todoJson;
 
   QRCodeTodoTitleLoaded({
-    // required this.todo,
     required this.todoJson,
-    });
+  });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [todoJson];
 }

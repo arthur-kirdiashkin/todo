@@ -6,10 +6,7 @@ abstract class BiometricState {}
 class BiometricInitial extends BiometricState {}
 
 class BiometricOn extends BiometricState {
-  // final bool biometric;
-  BiometricOn(
-    // required this.biometric,
-);
+  BiometricOn();
 }
 
 class BiometricFailure extends BiometricState {
@@ -23,6 +20,4 @@ class BiometricTriesExceededState extends BiometricState {
   BiometricTriesExceededState();
 }
 
-class BiometricOff extends BiometricState {
-  
-}
+class BiometricOff extends BiometricState {}

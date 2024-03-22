@@ -18,23 +18,12 @@ class BiometricRepositoryImpl implements BiometricRepository {
     if (isBiometricSupported || canCheckBiometrics) {
       try {
         isAuthenticated = true;
-      //   isAuthenticated = await localAuthentication.authenticate(
-      //   localizedReason: 'Please complete the biometrics to proceed.',
         
-      //   // authMessages: <AuthMessages> [
-      //   //   AndroidAuthMessages(
-      //   //     signInTitle: 'Biometric is required',
-      //   //     cancelButton: 'No, thanks'
-      //   //   )
-      //   // ]
-        
-        
-      // );
-      print(isAuthenticated);
+        print(isAuthenticated);
       } on PlatformException catch (e) {
         print(e.toString());
       }
-      
+
       print(isAuthenticated);
     }
     return isAuthenticated;

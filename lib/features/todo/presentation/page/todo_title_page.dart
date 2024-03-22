@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
-import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
@@ -29,7 +28,7 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
     return BlocBuilder<TodoTitleBloc, TodoTitleState>(
       builder: (context, state) {
         if (state is TodoTitleLoading) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -51,7 +50,7 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
                       state.todo.subTitle == null || state.todo.subTitle == ''
                           ? 'No text'
                           : state.todo.subTitle!,
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
@@ -73,18 +72,18 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
                     state.todo.subTitle == null || state.todo.subTitle == ''
                         ? 'No text'
                         : state.todo.subTitle!,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ],
               ),
             ),
           );
         } else if (state is TodoTitleError) {
-          return Center(
+          return const Center(
             child: Text('Ошибка передачи тайтла'),
           );
         }
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       },
     );
   }
@@ -100,7 +99,7 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
   Widget? useButton(Todo todo) {
     if (kIsWeb) {
       return ElevatedButton(
-        style: ButtonStyle(),
+        style: const ButtonStyle(),
         onPressed: () {
           context.read<TodoTitleBloc>().add(UpdateTodoSubTitleEvent(
                 todo: todo,
@@ -109,13 +108,13 @@ class _TodoTitlePageState extends State<TodoTitlePage> {
           context.read<TodoBloc>().add(GetTodoEvent());
           Navigator.of(context).pop();
         },
-        child: Text(
+        child: const Text(
           'Ok and Save',
           style: TextStyle(fontSize: 25),
         ),
       );
     } else if (Platform.isAndroid) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 }

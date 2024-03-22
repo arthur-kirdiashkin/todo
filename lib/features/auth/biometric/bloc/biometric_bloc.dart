@@ -1,12 +1,7 @@
 import 'dart:io';
-
-import 'package:app_settings/app_settings.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/services.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_editor_test/features/auth/biometric/biometric_repository.dart';
-
 part 'biometric_event.dart';
 part 'biometric_state.dart';
 
@@ -36,8 +31,5 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
       } 
     }
     }
-    // else {
-    //   emit(BiometricOff());
-    // }
   }
 }

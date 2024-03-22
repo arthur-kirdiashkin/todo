@@ -7,7 +7,6 @@ class AddTodoEvent extends TodoEvent {
 
   AddTodoEvent({required this.todoTitle});
   @override
-  // TODO: implement props
   List<Object?> get props => [todoTitle];
 }
 
@@ -17,13 +16,11 @@ class AddTodoDatabaseEvent extends TodoEvent {
   AddTodoDatabaseEvent({required this.todoTitle});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [todoTitle];
 }
 
 class GetTodoDatabaseEvent extends TodoEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -36,7 +33,6 @@ class DeleteTodoEvent extends TodoEvent {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id, todoTitle];
 }
 
@@ -50,19 +46,16 @@ class DeleteTodoFirebaseEvent extends TodoEvent {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
 class GetTodoEvent extends TodoEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
 class DeleteAllDocumentsEvent extends TodoEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
@@ -74,13 +67,11 @@ class IsSaveInFirebaseEvent extends TodoEvent {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [isSaveInFirebase];
 }
 
 class ShowIsSelectedButtonEvent extends TodoEvent{
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 
 }

@@ -19,6 +19,7 @@ abstract class TodoRepository {
   Future<String?> scanQR();
 
   Future<Box?> deleteBox();
+
 }
 
 class TodoRepositoryImpl implements TodoRepository {
@@ -98,4 +99,5 @@ class TodoRepositoryImpl implements TodoRepository {
     final todoBox = await openBox();
     todoBox.clear();
   }
+ 
 }

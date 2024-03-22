@@ -20,7 +20,6 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
   }
 
   _updateTodoTitleEvent(UpdateTodoTitleEvent event, emit) async {
-    // emit(TodoTitleLoading());
     final todoFromBase = await todoDatabaseRepository.getTodoFromFirebase();
     final updateTodoTitleDatabase = await todoDatabaseRepository
         .updateTodoTitleDatabase(event.todo, event.title!);
@@ -31,7 +30,6 @@ class TodoTitleBloc extends Bloc<TodoTitleEvent, TodoTitleState> {
   }
 
   _updateTodoSubTitleEvent(UpdateTodoSubTitleEvent event, emit) async {
-    // emit(TodoTitleLoading());
     final todoFromBase = await todoDatabaseRepository.getTodoFromFirebase();
     final updateTodoSubTitleDatabase = await todoDatabaseRepository
         .updateTodoSubtitleDatabase(event.todo, event.subTitle);

@@ -56,7 +56,7 @@ class SignUpPage extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Image.asset("assets/images/sign-in.png"),
+                     
                       const Text(Constants.textRegister,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -232,7 +232,6 @@ class _SubmitButton extends StatelessWidget {
                           .read<FormBloc>()
                           .add(const FormSubmitted(value: Status.signUp))
                       : null,
-                  child: const Text(Constants.textSignUpBtn),
                   style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all<Color>(
                           Constants.kPrimaryColor),
@@ -240,6 +239,7 @@ class _SubmitButton extends StatelessWidget {
                           Constants.kBlackColor),
                       side: MaterialStateProperty.all<BorderSide>(
                           BorderSide.none)),
+                  child: const Text(Constants.textSignUpBtn),
                 ),
               );
       },

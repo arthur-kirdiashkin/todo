@@ -48,51 +48,10 @@ class MyUser {
     );
   }
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'email': email,
-  //     'name': name,
-  //   };
-  // }
-
-  // factory MyUser.fromJson(Map<String, dynamic> doc) {
-  //   return MyUser(
-  //     email: doc['email'],
-  //     name: doc['name'],
-  //     id: doc['id'],
-  //   );
-  // }
-
-  // @override
-  // List<Object?> get props => [
-  //       id,
-  //       email,
-  //       name,
-  //     ];
 }
 
 
-// import 'package:equatable/equatable.dart';
 
-
-// enum AccountType {
-//   buy,
-//   sell,
-// }
-
-// enum EmailVerificationStatus {
-//   verified(0),
-//   unverified(1),
-//   sent(2);
-
-//   final int value;
-//   const EmailVerificationStatus(this.value);
-
-//   static EmailVerificationStatus fromInt(int value) {
-//     return EmailVerificationStatus.values.firstWhere((e) => e.value == value);
-//   }
-// }
 
 
 

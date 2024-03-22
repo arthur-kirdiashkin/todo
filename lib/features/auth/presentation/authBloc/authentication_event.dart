@@ -18,11 +18,5 @@ class AuthenticationSignedOut extends AuthenticationEvent {
 }
 
 class LoginWithBiometricEvent extends AuthenticationEvent {
-  // final String? email;
-  // final String? password;
-
-  LoginWithBiometricEvent(
-    // required this.email,
-    // required this.password,
-  );
+  LoginWithBiometricEvent();
 }
