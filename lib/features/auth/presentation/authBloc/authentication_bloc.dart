@@ -27,6 +27,7 @@ class AuthenticationBloc
           if (user.uid != "uid") {
             String? displayName =
                 await authenticationRepository.retrieveUserName(user);
+                emit(AuthenticationLoading());
             emit(AuthenticationSuccess(displayName: displayName));
           } else {
             emit(AuthenticationFailure());
