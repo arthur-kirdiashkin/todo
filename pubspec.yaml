@@ -52,13 +52,13 @@ dependencies:
   app_settings: 4.2.0
   qr_flutter: ^4.1.0
   flutter_barcode_scanner: ^2.0.0
-  flutter_secure_storage: ^5.0.0
-  crypto: ^3.0.1
-  encrypt: ^5.0.3
-  secure_shared_preferences: ^0.0.4
-  crypton: ^2.2.1
-  pointycastle: ^3.7.4
-  rsa_encrypt: ^2.0.0
+  # flutter_secure_storage: ^5.0.0
+  # crypto: ^3.0.1
+  # encrypt: ^5.0.3
+  # secure_shared_preferences: ^0.0.4
+  # crypton: ^2.2.1
+  # pointycastle: ^3.7.4
+  # rsa_encrypt: ^2.0.0
   # firebase_core_desktop: ^1.0.2
   # firebase_auth_desktop: ^1.0.2
   # The following adds the Cupertino Icons font to your application.

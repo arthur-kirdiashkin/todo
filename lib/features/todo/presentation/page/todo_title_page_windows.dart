@@ -30,7 +30,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
   Widget build(BuildContext context) {
     return BlocListener<TodoQRCodeBloc, TodoQRCodeState>(
       listener: (context, state) {
-        if (state is TodoQRCodeLoaded) {
+        if (state is TodoQRCodeSubtitle) {
           showDialog(
             context: context,
             builder: (context) {
@@ -39,7 +39,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                   padding: const EdgeInsets.all(20),
                   child: QrImageView(
                     data: state.todoJson,
-                    size: 400,
+                    size: 300,
                   ),
                 ),
               );
