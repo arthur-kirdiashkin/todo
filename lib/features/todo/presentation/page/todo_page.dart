@@ -119,9 +119,7 @@ class _TodoPageState extends State<TodoPage> {
                     );
                   } else if (state is TodoLoaded) {
                     if (state.todo.isEmpty || state.todo == null) {
-                      return const Center(
-                        child: Text('Press "+" to add item'),
-                      );
+                      return  centerTitle()!;
                     }
                     return ListView.builder(
                       shrinkWrap: true,
@@ -201,9 +199,7 @@ class _TodoPageState extends State<TodoPage> {
     }
   }
 
-  Widget? qrCodeButton(
-    BuildContext context,
-  ) {
+  Widget? qrCodeButton(BuildContext context) {
     if (kIsWeb) {
       return const SizedBox.shrink();
     } else if (Platform.isAndroid) {
@@ -221,6 +217,18 @@ class _TodoPageState extends State<TodoPage> {
             Icons.qr_code,
             color: Colors.white,
           ));
+    }
+  }
+
+  Widget? centerTitle() {
+    if(kIsWeb) {
+      return Center(
+                        child: Text('Press "+" to add item'),
+                      );
+    } else if(Platform.isAndroid) {
+      return Center(
+        child: Text('No items'),
+      );
     }
   }
 }
