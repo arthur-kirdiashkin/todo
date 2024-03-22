@@ -12,6 +12,8 @@ class AuthenticationInitial extends AuthenticationState {
   List<Object?> get props => [];
 }
 
+class AuthenticationLoading extends AuthenticationState {}
+
 class AuthenticationSuccess extends AuthenticationState {
   final String? displayName;
   const AuthenticationSuccess({this.displayName});
