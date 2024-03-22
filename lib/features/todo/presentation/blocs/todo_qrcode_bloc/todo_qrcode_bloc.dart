@@ -40,6 +40,6 @@ class TodoQRCodeBloc extends Bloc<TodoQRCodeEvent, TodoQRCodeState> {
         status: event.todo.status);
     final todoJson = jsonEncode(todo.toMap());
     emit(TodoQRCodeLoading());
-    emit(TodoQRCodeLoaded(todoJson: todoJson));
+    emit(TodoQRCodeSubtitle(todoJson: todoJson));
   }
 }

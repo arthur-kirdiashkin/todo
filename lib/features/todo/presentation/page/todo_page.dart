@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -119,7 +118,7 @@ class _TodoPageState extends State<TodoPage> {
                     );
                   } else if (state is TodoLoaded) {
                     if (state.todo.isEmpty || state.todo == null) {
-                      return  centerTitle()!;
+                      return centerTitle()!;
                     }
                     return ListView.builder(
                       shrinkWrap: true,
@@ -167,8 +166,8 @@ class _TodoPageState extends State<TodoPage> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const ItemPage()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ItemPage()));
           });
     } else if (Platform.isAndroid) {
       return const SizedBox.shrink();
@@ -221,12 +220,12 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   Widget? centerTitle() {
-    if(kIsWeb) {
-      return Center(
-                        child: Text('Press "+" to add item'),
-                      );
-    } else if(Platform.isAndroid) {
-      return Center(
+    if (kIsWeb) {
+      return const Center(
+        child: Text('Press "+" to add item'),
+      );
+    } else if (Platform.isAndroid) {
+      return const Center(
         child: Text('No items'),
       );
     }

@@ -35,3 +35,15 @@ class TodoQRCodeError extends TodoQRCodeState {
   @override
   List<Object?> get props => [message];
 }
+
+class TodoQRCodeSubtitle extends TodoQRCodeState{
+
+  final String todoJson;
+
+  TodoQRCodeSubtitle({required this.todoJson});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [todoJson];
+
+}
