@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
-
 import 'package:text_editor_test/features/auth/biometric/bloc/biometric_bloc.dart';
 import 'package:text_editor_test/features/auth/form-validation/bloc/form_bloc.dart';
 import 'package:text_editor_test/features/auth/form-validation/sign_up_page.dart';
@@ -60,13 +59,6 @@ class _SignInPageState extends State<SignInPage> {
             }
           },
         ),
-        // BlocListener<BiometricBloc, BiometricState>(
-        //   listener: (context, state) {
-        //     if (state is BiometricTriesExceededState) {
-        //       biometric = false;
-        //     }
-        //   },
-        // ),
       ],
       child: Scaffold(
           appBar: AppBar(
@@ -195,7 +187,6 @@ class _SubmitButton extends StatelessWidget {
                           .read<FormBloc>()
                           .add(const FormSubmitted(value: Status.signIn))
                       : null,
-                  child: const Text("Sign In"),
                   style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),
@@ -203,6 +194,7 @@ class _SubmitButton extends StatelessWidget {
                           MaterialStateProperty.all<Color>(Colors.black),
                       side: MaterialStateProperty.all<BorderSide>(
                           BorderSide.none)),
+                  child: const Text("Sign In"),
                 ),
               );
       },
@@ -225,6 +217,7 @@ class _SignInNavigate extends StatelessWidget {
               )),
           TextSpan(
               recognizer: TapGestureRecognizer()
+                // ignore: unnecessary_set_literal
                 ..onTap = () => {
                       Navigator.of(context).pop(),
                       Navigator.push(

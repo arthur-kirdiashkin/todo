@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_event.dart';
+
 
 class ItemPage extends StatefulWidget {
   const ItemPage({super.key});
@@ -19,7 +18,7 @@ class _ItemPageState extends State<ItemPage> {
     final wordController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Item Page'),
+        title: const Text('Item Page'),
         centerTitle: true,
       ),
       body: Padding(
@@ -29,21 +28,21 @@ class _ItemPageState extends State<ItemPage> {
             Expanded(
               child: TextField(
                 controller: wordController,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                 ),
                 decoration: InputDecoration(
-                  fillColor: Color.fromARGB(255, 255, 232, 240),
+                  fillColor: const Color.fromARGB(255, 255, 232, 240),
                   filled: true,
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       width: 10,
                       color: Color.fromARGB(255, 108, 189, 255),
                     ),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.black,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -52,11 +51,11 @@ class _ItemPageState extends State<ItemPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               height: 60,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.blueAccent),
+                  backgroundColor: const MaterialStatePropertyAll(Colors.blueAccent),
                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15))),
                 ),
@@ -64,33 +63,31 @@ class _ItemPageState extends State<ItemPage> {
                   context
                       .read<TodoBloc>()
                       .add(AddTodoEvent(todoTitle: wordController.text));
-                      // context.read<TodoBloc>().add(AddTodoDatabaseEvent(todoTitle: wordController.text));
-                  // context.read<TodoDatabaseBloc>().add(
-                  //     AddTodoDatabaseEvent(textTitle: wordController.text));
+
                   wordController.clear();
                 },
-                child: Text(
+                child: const Text(
                   'Save',
                   style: TextStyle(fontSize: 15),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Container(
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               height: 60,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.blueAccent),
+                  backgroundColor: const MaterialStatePropertyAll(Colors.blueAccent),
                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15))),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   'Ок',
                   style: TextStyle(fontSize: 15),
                 ),

@@ -1,8 +1,5 @@
 
-
-
 import 'package:text_editor_test/features/auth/data/user.dart';
-
 import 'database_service.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {

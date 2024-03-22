@@ -137,7 +137,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
                   "Please Verify your email, by clicking the link sent to you by mail.",
               isLoading: false));
         }
-        // emit(state.copyWith(isLoading: false, errorMessage: ""));
+        
       } on FirebaseAuthException catch (e) {
         print(e);
         emit(state.copyWith(

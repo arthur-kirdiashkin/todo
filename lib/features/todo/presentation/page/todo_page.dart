@@ -1,22 +1,10 @@
-import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:text_editor_test/features/auth/biometric/bloc/biometric_bloc.dart';
-import 'package:text_editor_test/features/auth/database/bloc/database_bloc.dart';
 import 'package:text_editor_test/features/auth/form-validation/welcome_page.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_bloc.dart';
-import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_event.dart';
 import 'package:text_editor_test/features/auth/presentation/authBloc/authentication_state.dart';
-import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_event.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_state.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_event.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_event.dart';
@@ -30,13 +18,26 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bl
 import 'package:text_editor_test/features/todo/presentation/page/settings_page.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_title_page.dart';
 import 'package:text_editor_test/features/todo/presentation/page/todo_title_page_windows.dart';
-import 'package:text_editor_test/utils/constants.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-class TodoPage extends StatelessWidget {
+class TodoPage extends StatefulWidget {
   const TodoPage({Key? key}) : super(key: key);
+
+  @override
+  State<TodoPage> createState() => _TodoPageState();
+}
+
+class _TodoPageState extends State<TodoPage> {
+  final passwordController = TextEditingController();
+  var hidePassword;
+
+  @override
+  void initState() {
+    hidePassword = true;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +60,10 @@ class TodoPage extends StatelessWidget {
                 builder: (context) {
                   return Dialog(
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: QrImageView(
                         data: state.todoJson,
-                        size: 400,
+                        size: 300,
                       ),
                     ),
                   );
@@ -77,10 +78,9 @@ class TodoPage extends StatelessWidget {
           return Scaffold(
             floatingActionButton: ElevatedButton(
                 onPressed: () {
-                  // context.read<TodoDatabaseBloc>().add(LoadTodoDataEvent());
                   context.read<TodoBloc>().add(GetTodoDatabaseEvent());
                 },
-                child: Text('Load from Firebase')),
+                child: const Text('Load from Firebase')),
             appBar: AppBar(
               backgroundColor: Colors.blue,
               actions: <Widget>[
@@ -88,11 +88,10 @@ class TodoPage extends StatelessWidget {
                 addButton(context)!,
                 IconButton(
                     onPressed: () {
-                      //  context.read<TodoBloc>().add(ShowIsSelectedButtonEvent());
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SettingsPage()));
+                          builder: (context) => const SettingsPage()));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.settings,
                       color: Colors.white,
                     )),
@@ -115,12 +114,12 @@ class TodoPage extends StatelessWidget {
               child: BlocBuilder<TodoBloc, TodoState>(
                 builder: (context, state) {
                   if (state is TodoLoading) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is TodoLoaded) {
                     if (state.todo.isEmpty || state.todo == null) {
-                      return Center(
+                      return const Center(
                         child: Text('Press "+" to add item'),
                       );
                     }
@@ -131,35 +130,28 @@ class TodoPage extends StatelessWidget {
                         return InkWell(
                           onLongPress: () {
                             context.read<TodoQRCodeBloc>().add(
-                                TodoAddQRCodeEvent(
-                                    todoJson:
-                                        jsonEncode(state.todo[index].toMap())));
+                                TodoAddQRCodeEvent(todo: state.todo[index]));
                           },
                           onTap: () {
                             context
                                 .read<TodoTitleBloc>()
                                 .add(AddOneTodoEvent(todo: state.todo[index]));
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => selectTodoTitlePage()!,
-                            //     ));
+
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => selectTodoTitlePage()!));
                           },
                           child: Card(
-                            color: Color.fromARGB(255, 255, 225, 222),
+                            color: const Color.fromARGB(255, 255, 225, 222),
                             child: ListTile(
                               trailing: deleteIcon(context, state.todo, index),
                               title: Text(state.todo[index].title!),
-                              // leading: qrCodeButton(context, state.todo[index]),
                             ),
                           ),
                         );
                       },
                     );
                   }
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 },
               ),
             ),
@@ -178,17 +170,17 @@ class TodoPage extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ItemPage()));
+                .push(MaterialPageRoute(builder: (context) => const ItemPage()));
           });
     } else if (Platform.isAndroid) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 
   Widget? deleteIcon(BuildContext context, todo, int index) {
     if (kIsWeb) {
       return InkWell(
-          child: Icon(
+          child: const Icon(
             Icons.delete,
             color: Colors.red,
           ),
@@ -197,7 +189,7 @@ class TodoPage extends StatelessWidget {
                 id: todo[index].id, todoTitle: todo[index].title!));
           });
     } else if (Platform.isAndroid) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 
@@ -213,7 +205,7 @@ class TodoPage extends StatelessWidget {
     BuildContext context,
   ) {
     if (kIsWeb) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     } else if (Platform.isAndroid) {
       return IconButton(
           color: Colors.black,
@@ -225,7 +217,7 @@ class TodoPage extends StatelessWidget {
                   builder: (context) => TodoTitlePage(),
                 ));
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.qr_code,
             color: Colors.white,
           ));

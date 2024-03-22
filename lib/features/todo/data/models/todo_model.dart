@@ -6,7 +6,7 @@ class TodoModel extends Equatable {
   final String? textTitle;
   final String? id;
 
-  TodoModel({
+  const TodoModel({
     this.isDone,
     required this.textTitle,
     required this.id,
@@ -26,7 +26,6 @@ class TodoModel extends Equatable {
         isDone = doc.data()!["isDone"];
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         textTitle,
         id,

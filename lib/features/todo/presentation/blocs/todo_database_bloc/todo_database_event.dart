@@ -10,14 +10,12 @@ class AddTodoDatabaseeEvent extends TodoDatabaseEvent {
   AddTodoDatabaseeEvent({required this.textTitle});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [textTitle];
 
 }
 
 class LoadTodoDataEvent extends TodoDatabaseEvent {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 
 }
@@ -28,7 +26,6 @@ class DeleteTotoDataEvent extends TodoDatabaseEvent {
   DeleteTotoDataEvent({required this.id});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id];
 
 }

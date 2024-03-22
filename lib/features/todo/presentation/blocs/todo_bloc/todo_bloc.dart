@@ -1,14 +1,12 @@
 import 'dart:math';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
-
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_state.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
-import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_state.dart';
+
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
@@ -25,7 +23,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<IsSaveInFirebaseEvent>(_isSaveInFirebaseEvent);
   }
   _addTodoEvent(AddTodoEvent event, emit) async {
-    emit(TodoLoading());
+    emit(const TodoLoading());
     final randomValue = Random().nextInt(50);
     if (isSaveInFirebase == true) {
       final todos = await todoDatabaseRepository
@@ -52,12 +50,11 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   _getTodoDatabaseEvent(GetTodoDatabaseEvent event, emit) async {
-    emit(TodoLoading());
+    emit(const TodoLoading());
     List<Todo>? todo = await todoRepository.getTodo();
     List<Todo> listofTodoData =
         await todoDatabaseRepository.getTodoFromFirebase();
 
-    var set = Set<String>();
 
     if (todo != null) {
       for (Todo i in listofTodoData) {
@@ -71,7 +68,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   _getTodoEvent(GetTodoEvent event, emit) async {
-    emit(TodoLoading());
+    emit(const TodoLoading());
 
     final todo = await todoRepository.getTodo();
 

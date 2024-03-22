@@ -1,11 +1,7 @@
-import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
-import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_event.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_bloc.dart';
@@ -14,12 +10,11 @@ import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bl
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_event.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_title_bloc/todo_title_state.dart';
-import 'dart:io' show Platform;
 
-import 'package:text_editor_test/features/todo/presentation/page/todo_title_page.dart';
+
 
 class TodoTitlePageWindows extends StatefulWidget {
-  TodoTitlePageWindows({
+  const TodoTitlePageWindows({
     super.key,
   });
 
@@ -41,7 +36,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
             builder: (context) {
               return Dialog(
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: QrImageView(
                     data: state.todoJson,
                     size: 400,
@@ -55,7 +50,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
       child: BlocBuilder<TodoTitleBloc, TodoTitleState>(
         builder: (context, state) {
           if (state is TodoTitleLoading) {
-            return Scaffold(
+            return  const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -64,7 +59,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
           if (state is TodoTitleLoaded) {
             return Scaffold(
               floatingActionButton: ElevatedButton(
-                style: ButtonStyle(),
+                style: const ButtonStyle(),
                 onPressed: () {
                   context.read<TodoTitleBloc>().add(UpdateTodoSubTitleEvent(
                         todo: state.todo,
@@ -73,7 +68,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                   context.read<TodoBloc>().add(GetTodoEvent());
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   'Ok and Save',
                   style: TextStyle(fontSize: 25),
                 ),
@@ -99,29 +94,29 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                           });
                         },
                         controller: titleController..text = state.todo.title!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
                           labelText: 'Change Title',
-                          fillColor: Color.fromARGB(255, 255, 232, 240),
+                          fillColor: const Color.fromARGB(255, 255, 232, 240),
                           filled: true,
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 10,
                               color: Color.fromARGB(255, 108, 189, 255),
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.black,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       SizedBox(
@@ -132,31 +127,26 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                               ? subTitleController
                               : (subTitleController
                                 ..text = state.todo.subTitle!),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlignVertical: TextAlignVertical.top,
-                          // maxLines: 4,
                           expands: true,
                           maxLines: null,
                           minLines: null,
-
                           decoration: InputDecoration(
-                            // isDense: true,
-                            // contentPadding: EdgeInsets.symmetric(
-                            //     vertical: MediaQuery.of(context).size.height * 0.3),
                             labelText: 'SubTitle',
-                            fillColor: Color.fromARGB(255, 255, 232, 240),
+                            fillColor: const Color.fromARGB(255, 255, 232, 240),
                             filled: true,
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 width: 10,
                                 color: Color.fromARGB(255, 108, 189, 255),
                               ),
                               borderRadius: BorderRadius.circular(15),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.black,
                               ),
                               borderRadius: BorderRadius.circular(15),
@@ -164,13 +154,11 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            // context.read<TodoTitleBloc>().add(AddQRCodeEvent(
-                            //     todoJson: jsonEncode(state.todo.toMap())));
                             context
                                 .read<TodoQRCodeBloc>()
                                 .add(TodoAddQRCodeSubtitleEvent(
@@ -178,8 +166,8 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                                   subtitile: subTitleController.text,
                                 ));
                           },
-                          child: Text('Create QR Code')),
-                      SizedBox(
+                          child: const Text('Create QR Code')),
+                      const SizedBox(
                         height: 40,
                       ),
                     ],
@@ -190,7 +178,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
           } else if (state is TodoTitleUpdated) {
             return Scaffold(
               floatingActionButton: ElevatedButton(
-                style: ButtonStyle(),
+                style: const ButtonStyle(),
                 onPressed: () {
                   context.read<TodoTitleBloc>().add(UpdateTodoSubTitleEvent(
                         todo: state.todo,
@@ -199,7 +187,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                   context.read<TodoBloc>().add(GetTodoEvent());
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   'Ok and Save',
                   style: TextStyle(fontSize: 25),
                 ),
@@ -220,31 +208,30 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                             ));
                       },
                       controller: titleController..text = state.todo.title!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                       ),
                       textAlignVertical: TextAlignVertical.top,
-                      // maxLines: 4,
                       decoration: InputDecoration(
                         labelText: 'Change Title',
-                        fillColor: Color.fromARGB(255, 255, 232, 240),
+                        fillColor: const Color.fromARGB(255, 255, 232, 240),
                         filled: true,
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 10,
                             color: Color.fromARGB(255, 108, 189, 255),
                           ),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.black,
                           ),
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     SizedBox(
@@ -258,26 +245,23 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                                 state.todo.subTitle == null
                             ? subTitleController
                             : (subTitleController..text = state.todo.subTitle!),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
                         decoration: InputDecoration(
                           isDense: true,
-                          // contentPadding: EdgeInsets.symmetric(
-                          //     vertical: MediaQuery.of(context).size.height * 0.3),
-
                           labelText: 'SubTitle',
-                          fillColor: Color.fromARGB(255, 255, 232, 240),
+                          fillColor: const Color.fromARGB(255, 255, 232, 240),
                           filled: true,
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 10,
                               color: Color.fromARGB(255, 108, 189, 255),
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.black,
                             ),
                             borderRadius: BorderRadius.circular(15),
@@ -285,7 +269,7 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     ElevatedButton(
@@ -296,26 +280,18 @@ class _TodoTitlePageWindowsState extends State<TodoTitlePageWindows> {
                                 todo: state.todo,
                                 subtitile: subTitleController.text,
                               ));
-                          // context
-                          //     .read<TodoTitleBloc>()
-                          //     .add(AddQRCodeSubtitleEvent(
-                          //       todo: state.todo,
-                          //       subtitile: subTitleController.text,
-                          //     ));
-                          // context.read<TodoTitleBloc>().add(AddQRCodeEvent(
-                          //     todoJson: jsonEncode(state.todo.toMap())));
                         },
-                        child: Text('Create QR Code')),
+                        child: const Text('Create QR Code')),
                   ],
                 ),
               ),
             );
           } else if (state is TodoTitleError) {
-            return Center(
+            return const Center(
               child: Text('Ошибка передачи тайтла'),
             );
           }
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         },
       ),
     );

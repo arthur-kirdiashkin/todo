@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:text_editor_test/features/auth/biometric/biometric_repository.dart';
 import 'package:text_editor_test/features/auth/biometric/bloc/biometric_bloc.dart';
 import 'package:text_editor_test/features/auth/data/repository/authentication_repository.dart';
@@ -13,6 +12,7 @@ import 'package:text_editor_test/features/todo/data/datasource/todo_list_service
 import 'package:text_editor_test/features/todo/data/datasource/todo_service.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_database_repository.dart';
 import 'package:text_editor_test/features/todo/data/repository/todo_repository.dart';
+import 'package:text_editor_test/features/todo/presentation/blocs/encrypt_bloc/encrypt_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_database_bloc/todo_database_bloc.dart';
 import 'package:text_editor_test/features/todo/presentation/blocs/todo_qrcode_bloc/todo_qrcode_bloc.dart';
@@ -26,7 +26,6 @@ Future<void> initDependency() async {
   Hive.registerAdapter(TodoStatusAdapter());
   Hive.registerAdapter(LocalListAdapter());
   Hive.registerAdapter(ListStatusAdapter());
-  // await Hive.openBox<Todo>('HiveTodos');
 
   locator.registerLazySingleton<TodoDatabaseRepository>(
       () => TodoDatabaseRepositoryImpl());
@@ -37,6 +36,8 @@ Future<void> initDependency() async {
   locator.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl());
   locator.registerLazySingleton<BiometricRepository>(
       () => BiometricRepositoryImpl());
+
+  locator.registerFactory(() => EncryptBloc());
 
   locator.registerFactory(() => TodoQRCodeBloc(
         todoRepository: locator<TodoRepository>(),
@@ -58,8 +59,4 @@ Future<void> initDependency() async {
       databaseRepository: locator<DatabaseRepository>()));
   locator.registerFactory(
       () => BiometricBloc(biometricRepository: locator<BiometricRepository>()));
-
-  // locator.registerSingleton<Box<Todo>>(
-  //   Hive.box('HiveTodos')
-  // );
 }
